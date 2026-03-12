@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大師轉運指引 | 天機命理 - 紫微斗數×奇門遁甲 方位開運</title>
+  <meta name="description" content="結合紫微斗數與奇門遁甲，專業命理最佳轉運方位與時機。45分鐘改變運勢，財運事業感情健康全方位提升。">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ===== Guide-specific styles ===== */
+    .guide-hero {
+      text-align: center;
+      padding: 3rem 2rem 2rem;
+      position: relative;
+    }
+    .guide-hero h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffd700, #ff6b6b, #ffd700, #00e5ff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: heroShimmer 5s ease infinite;
+      margin-bottom: 0.5rem;
+    }
+    @keyframes heroShimmer {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .guide-hero .tagline {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 500px;
+      margin: 0 auto 1rem;
+    }
+    .guide-hero .master-ref {
+      display: inline-block;
+      background: rgba(255,215,0,0.08);
+      border: 1px solid rgba(255,215,0,0.15);
+      border-radius: 999px;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.78rem;
+      color: var(--gold);
+    }
+
+    /* Concern selector */
+    .concern-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .concern-option {
+      background: var(--bg-glass);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .concern-option:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .concern-option.selected {
+      border-color: var(--gold);
+      background: rgba(255,215,0,0.08);
+      box-shadow: 0 0 20px rgba(255,215,0,0.15);
+    }
+    .concern-option .concern-icon { font-size: 1.8rem; display: block; margin-bottom: 0.3rem; }
+    .concern-option .concern-label { font-size: 0.85rem; color: var(--text-primary); }
+
+    /* ===== Compass ===== */
+    .compass-container {
+      position: relative;
+      width: 280px; height: 280px;
+      margin: 2rem auto;
+    }
+    .compass-ring {
+      position: absolute; inset: 0;
+      border: 2px solid rgba(255,215,0,0.2);
+      border-radius: 50%;
+      animation: compassGlow 3s ease infinite;
+    }
+    @keyframes compassGlow {
+      0%,100% { box-shadow: 0 0 20px rgba(255,215,0,0.1), inset 0 0 20px rgba(255,215,0,0.05); }
+      50% { box-shadow: 0 0 40px rgba(255,215,0,0.2), inset 0 0 30px rgba(255,215,0,0.1); }
+    }
+    .compass-ring::before {
+      content: '';
+      position: absolute; inset: 8px;
+      border: 1px solid rgba(255,215,0,0.1);
+      border-radius: 50%;
+    }
+    .compass-directions {
+      position: absolute; inset: 0;
+    }
+    .compass-dir {
+      position: absolute;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      transition: all 0.5s ease;
+    }
+    .compass-dir.active {
+      color: var(--gold);
+      font-size: 1rem;
+      font-weight: 700;
+      text-shadow: 0 0 15px rgba(255,215,0,0.5);
+    }
+    .compass-dir[data-dir="N"]  { top: 5px; left: 50%; transform: translateX(-50%); }
+    .compass-dir[data-dir="NE"] { top: 18%; right: 10%; }
+    .compass-dir[data-dir="E"]  { top: 50%; right: 5px; transform: translateY(-50%); }
+    .compass-dir[data-dir="SE"] { bottom: 18%; right: 10%; }
+    .compass-dir[data-dir="S"]  { bottom: 5px; left: 50%; transform: translateX(-50%); }
+    .compass-dir[data-dir="SW"] { bottom: 18%; left: 10%; }
+    .compass-dir[data-dir="W"]  { top: 50%; left: 5px; transform: translateY(-50%); }
+    .compass-dir[data-dir="NW"] { top: 18%; left: 10%; }
+
+    .compass-needle {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 4px; height: 100px;
+      margin-left: -2px; margin-top: -100px;
+      transform-origin: bottom center;
+      transition: transform 1.5s cubic-bezier(.4,0,.2,1);
+    }
+    .compass-needle::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 25px solid var(--gold);
+      filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
+    }
+    .compass-needle::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 20px solid rgba(255,255,255,0.15);
+    }
+    .compass-center-dot {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 16px; height: 16px;
+      margin: -8px 0 0 -8px;
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255,215,0,0.5);
+      z-index: 2;
+    }
+
+    /* Glowing direction indicator */
+    .direction-glow {
+      position: absolute;
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,215,0,0.4), transparent);
+      animation: dirGlow 2s ease infinite;
+      pointer-events: none;
+      transition: all 1.5s ease;
+    }
+    @keyframes dirGlow {
+      0%,100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.4); opacity: 1; }
+    }
+
+    /* ===== Result Card ===== */
+    .result-card {
+      background: linear-gradient(135deg, rgba(10,0,21,0.9), rgba(30,0,60,0.9));
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .result-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 0%, rgba(255,215,0,0.06) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 100%, rgba(0,229,255,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .result-item {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      z-index: 1;
+    }
+    .result-item:last-child { border-bottom: none; }
+    .result-item .ri-icon { font-size: 1.3rem; min-width: 30px; text-align: center; }
+    .result-item .ri-label { color: var(--text-muted); font-size: 0.8rem; }
+    .result-item .ri-value {
+      color: var(--gold);
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .result-item .ri-sub { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.2rem; }
+
+    /* Notes list */
+    .notes-list {
+      list-style: none; padding: 0; margin: 0.5rem 0;
+    }
+    .notes-list li {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      padding: 0.3rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+    .notes-list li::before {
+      content: '✦';
+      position: absolute; left: 0;
+      color: var(--gold);
+      font-size: 0.7rem;
+    }
+
+    /* Collapsible */
+    .collapsible-header {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer;
+      padding: 0.8rem 0;
+      color: var(--gold);
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 0.5rem;
+    }
+    .collapsible-header .arrow {
+      transition: transform 0.3s ease;
+    }
+    .collapsible-header.open .arrow { transform: rotate(180deg); }
+    .collapsible-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .collapsible-body.open { max-height: 600px; }
+    .collapsible-body p {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.8;
+      padding: 0.5rem 0;
+      white-space: pre-line;
+    }
+
+    /* ===== Timer ===== */
+    .timer-section {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .timer-display {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(255,215,0,0.3);
+      margin: 1rem 0;
+      letter-spacing: 4px;
+      display: none;
+    }
+    .timer-display.active { display: block; }
+    .timer-progress {
+      width: 100%;
+      max-width: 400px;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      margin: 1rem auto;
+      overflow: hidden;
+      display: none;
+    }
+    .timer-progress.active { display: block; }
+    .timer-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--cyan));
+      border-radius: 2px;
+      transition: width 1s linear;
+    }
+    .timer-status {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      display: none;
+    }
+    .timer-status.active { display: block; }
+
+    .btn-timer {
+      background: linear-gradient(135deg, #1a0030, #2d1050);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 0.8rem 2rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    .btn-timer:hover {
+      background: rgba(255,215,0,0.1);
+      box-shadow: 0 0 20px rgba(255,215,0,0.2);
+    }
+    .btn-timer:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ===== Action buttons ===== */
+    .action-buttons {
+      display: flex; gap: 1rem; justify-content: center;
+      flex-wrap: wrap; margin: 1.5rem 0;
+    }
+
+    /* ===== Paid CTA ===== */
+    .paid-cta {
+      background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(224,64,251,0.1));
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 20px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .paid-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.1), transparent 70%);
+      pointer-events: none;
+    }
+    .paid-cta h3 {
+      font-family: 'Noto Serif TC', serif;
+      color: var(--magenta);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .paid-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.8rem;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    .paid-feature {
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+    .paid-feature .pf-icon { color: var(--purple-light); }
+    .price-grid {
+      display: flex; gap: 1rem; justify-content: center;
+      flex-wrap: wrap; margin: 1.5rem 0;
+    }
+    .price-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 12px;
+      padding: 1.2rem;
+      min-width: 140px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .price-card:hover { border-color: var(--purple); transform: translateY(-2px); }
+    .price-card .price {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--magenta);
+    }
+    .price-card .price-period {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .price-card .price-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+    }
+
+    /* Email signup */
+    .signup-form {
+      display: flex; gap: 0.5rem;
+      max-width: 400px; margin: 1rem auto;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .signup-form input[type="email"] {
+      flex: 1; min-width: 200px;
+      padding: 0.7rem 1rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    .signup-form input:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--bg-mid);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 520px; width: 90%;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: none; border: none;
+      color: var(--text-muted); font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Animations */
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .result-animate {
+      animation: resultReveal 0.6s ease forwards;
+    }
+
+    /* Share button */
+    .btn-share {
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.3);
+      color: var(--cyan);
+    }
+    .btn-share:hover {
+      background: rgba(0,229,255,0.15);
+    }
+
+    /* Badge pulse */
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(239,68,68,0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-screen">
+    <div class="loading-bagua">☯</div>
+    <div class="loading-text">天機命理</div>
+  </div>
+
+  <canvas id="starfield"></canvas>
+  <div class="checkin-banner"></div>
+
+  <div class="page-wrap">
+    <header class="site-header">
+      <nav>
+        <a href="index.html" class="site-logo">
+          <span class="logo-icon">☯</span>
+          天機命理
+          <span class="logo-sub">專業命理</span>
+        </a>
+        <button class="nav-toggle" aria-label="選單">☰</button>
+        <div class="nav-links">
+          <a href="guide.html" class="active">轉運指引 <span style="color:#ef4444;font-size:0.65rem;vertical-align:super;animation:badgePulse 2s infinite;">HOT</span></a>
+          <a href="ziwei.html">紫微斗數</a>
+          <a href="bazi.html">八字排盤</a>
+          <a href="qimen.html">奇門遁甲</a>
+          <a href="name.html">姓名學</a>
+          <a href="daily.html">每日運勢</a>
+          <a href="paid-report.html" style="color:var(--gold);font-weight:700;">付費報告 ✦</a>
+          <div class="header-controls">
+            <button class="ctrl-btn" id="theme-toggle" title="切換主題">☀️</button>
+            <button class="ctrl-btn" id="music-toggle" title="背景音樂">🔇</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="guide-hero">
+      <h1>🧭 大師轉運指引</h1>
+      <p class="tagline">結合紫微斗數 × 奇門遁甲，為你找到最佳轉運方位與時機</p>
+      <div class="master-ref">💎 靈感源自大師級 NT$13,000~50,600 的開運服務</div>
+    </section>
+
+    <div class="page-container">
+      <!-- Input Form -->
+      <div class="glass-box">
+        <h3 style="color:var(--gold);font-family:'Noto Serif TC',serif;margin-bottom:1rem;">📝 輸入你的出生資訊</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>出生年（西元）</label>
+            <input type="number" id="birth-year" placeholder="例: 1990" min="1940" max="2010">
+          </div>
+          <div class="form-group">
+            <label>出生月</label>
+            <select id="birth-month">
+              <option value="">選擇月份</option>
+              <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+              <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+              <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+              <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>出生日</label>
+            <input type="number" id="birth-day" placeholder="日" min="1" max="31">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>出生時辰</label>
+            <select id="birth-hour">
+              <option value="">選擇時辰</option>
+              <option value="0">子時 (23:00-01:00)</option>
+              <option value="1">丑時 (01:00-03:00)</option>
+              <option value="2">寅時 (03:00-05:00)</option>
+              <option value="3">卯時 (05:00-07:00)</option>
+              <option value="4">辰時 (07:00-09:00)</option>
+              <option value="5">巳時 (09:00-11:00)</option>
+              <option value="6">午時 (11:00-13:00)</option>
+              <option value="7">未時 (13:00-15:00)</option>
+              <option value="8">申時 (15:00-17:00)</option>
+              <option value="9">酉時 (17:00-19:00)</option>
+              <option value="10">戌時 (19:00-21:00)</option>
+              <option value="11">亥時 (21:00-23:00)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>性別</label>
+            <div class="radio-group">
+              <label><input type="radio" name="gender" value="男" checked> 男</label>
+              <label><input type="radio" name="gender" value="女"> 女</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>🎯 目前最想改善的方面</label>
+          <div class="concern-grid">
+            <div class="concern-option" data-concern="財運">
+              <span class="concern-icon">💰</span>
+              <span class="concern-label">財運</span>
+            </div>
+            <div class="concern-option" data-concern="事業">
+              <span class="concern-icon">💼</span>
+              <span class="concern-label">事業</span>
+            </div>
+            <div class="concern-option" data-concern="感情">
+              <span class="concern-icon">❤️</span>
+              <span class="concern-label">感情</span>
+            </div>
+            <div class="concern-option" data-concern="健康">
+              <span class="concern-icon">🏥</span>
+              <span class="concern-label">健康</span>
+            </div>
+            <div class="concern-option" data-concern="學業">
+              <span class="concern-icon">📚</span>
+              <span class="concern-label">學業</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-center" id="generate-btn" onclick="runGuide()">
+          🔮 開始轉運分析
+        </button>
+      </div>
+
+      <!-- Results Section -->
+      <div id="result-section" class="result-section">
+        <!-- Compass -->
+        <div class="compass-container" id="compass-container">
+          <div class="compass-ring"></div>
+          <div class="compass-directions">
+            <span class="compass-dir" data-dir="N">北</span>
+            <span class="compass-dir" data-dir="NE">東北</span>
+            <span class="compass-dir" data-dir="E">東</span>
+            <span class="compass-dir" data-dir="SE">東南</span>
+            <span class="compass-dir" data-dir="S">南</span>
+            <span class="compass-dir" data-dir="SW">西南</span>
+            <span class="compass-dir" data-dir="W">西</span>
+            <span class="compass-dir" data-dir="NW">西北</span>
+          </div>
+          <div class="compass-needle" id="compass-needle"></div>
+          <div class="compass-center-dot"></div>
+          <div class="direction-glow" id="direction-glow"></div>
+        </div>
+
+        <!-- Result Card -->
+        <div class="result-card result-animate" id="result-card">
+          <div class="result-item">
+            <span class="ri-icon">🧭</span>
+            <div>
+              <div class="ri-label">轉運方位</div>
+              <div class="ri-value" id="r-direction"></div>
+              <div class="ri-sub" id="r-palace-info"></div>
+            </div>
+          </div>
+          <div class="result-item">
+            <span class="ri-icon">⏰</span>
+            <div>
+              <div class="ri-label">最佳時段</div>
+              <div class="ri-value" id="r-time"></div>
+              <div class="ri-sub" id="r-time-sub"></div>
+            </div>
+          </div>
+          <div class="result-item">
+            <span class="ri-icon">⏱</span>
+            <div>
+              <div class="ri-label">停留時間</div>
+              <div class="ri-value">在該方位停留 45 分鐘</div>
+            </div>
+          </div>
+          <div class="result-item">
+            <span class="ri-icon">🎯</span>
+            <div>
+              <div class="ri-label">利於</div>
+              <div class="ri-value" id="r-benefits"></div>
+            </div>
+          </div>
+          <div class="result-item">
+            <span class="ri-icon">📋</span>
+            <div>
+              <div class="ri-label">注意事項</div>
+              <ul class="notes-list" id="r-notes"></ul>
+            </div>
+          </div>
+
+          <!-- Collapsible: 命理依據 -->
+          <div class="collapsible-header" id="toggle-analysis" onclick="toggleAnalysis()">
+            <span>🔮 命理依據</span>
+            <span class="arrow">▼</span>
+          </div>
+          <div class="collapsible-body" id="analysis-body">
+            <p><strong style="color:var(--purple-light)">紫微斗數分析：</strong></p>
+            <p id="r-ziwei-analysis"></p>
+            <p style="margin-top:0.8rem"><strong style="color:var(--cyan)">奇門遁甲分析：</strong></p>
+            <p id="r-qimen-analysis"></p>
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-section">
+          <div class="timer-display" id="timer-display">45:00</div>
+          <div class="timer-progress" id="timer-progress">
+            <div class="timer-progress-bar" id="timer-bar" style="width:100%"></div>
+          </div>
+          <div class="timer-status" id="timer-status">轉運計時進行中...</div>
+          <button class="btn-timer" id="timer-btn" onclick="toggleTimer()">
+            ⏱ 開始 45 分鐘轉運計時
+          </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button class="btn btn-outline btn-share" onclick="shareResult()">📤 分享結果</button>
+          <button class="btn btn-paid" onclick="showPaidModal()">🔓 解鎖完整 大師解讀</button>
+        </div>
+
+        <!-- Paid CTA -->
+        <div class="paid-cta">
+          <h3>✨ 解鎖完整 大師解讀</h3>
+          <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:1rem;">獲得更深層的命理分析與個人化轉運方案</p>
+          <div class="paid-features">
+            <div class="paid-feature"><span class="pf-icon">✦</span> 詳細命盤弱點分析</div>
+            <div class="paid-feature"><span class="pf-icon">✦</span> 每日最佳轉運時段推播</div>
+            <div class="paid-feature"><span class="pf-icon">✦</span> 個人化轉運方案（含風水建議）</div>
+            <div class="paid-feature"><span class="pf-icon">✦</span> 月度運勢報告</div>
+          </div>
+          <div class="price-grid">
+            <div class="price-card">
+              <div class="price">NT$299</div>
+              <div class="price-period">/次</div>
+              <div class="price-label">單次解讀</div>
+            </div>
+            <div class="price-card" style="border-color:var(--purple);transform:scale(1.05);">
+              <div class="price">NT$999</div>
+              <div class="price-period">/月</div>
+              <div class="price-label">月度訂閱</div>
+            </div>
+            <div class="price-card">
+              <div class="price">NT$2,999</div>
+              <div class="price-period">/年</div>
+              <div class="price-label">年度方案</div>
+            </div>
+          </div>
+          <p style="color:var(--purple-light);font-size:0.85rem;margin:1rem 0;">🚀 即將推出，搶先登記享早鳥優惠</p>
+          <form class="signup-form" onsubmit="handleSignup(event)">
+            <input type="email" id="signup-email" placeholder="輸入 Email 搶先登記" required>
+            <button type="submit" class="btn btn-paid" style="padding:0.7rem 1.5rem;">登記</button>
+          </form>
+          <div id="signup-msg" style="color:var(--green);font-size:0.85rem;margin-top:0.5rem;display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p class="disclaimer">⚠️ 本網站僅供娛樂參考，不構成任何專業建議。命運掌握在自己手中。</p>
+      <p>© 2026 天機命理 | 專業命理分析平台</p>
+    </footer>
+  </div>
+
+  <!-- Paid Modal -->
+  <div class="modal-overlay" id="paid-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closePaidModal()">✕</button>
+      <h3 style="color:var(--magenta);font-family:'Noto Serif TC',serif;text-align:center;margin-bottom:1rem;">🔮 完整 大師解讀</h3>
+      <p style="color:var(--text-secondary);text-align:center;margin-bottom:1.5rem;">此功能即將推出！搶先登記，享早鳥優惠。</p>
+      <form class="signup-form" onsubmit="handleSignup(event)" style="max-width:100%;">
+        <input type="email" placeholder="輸入 Email" required style="flex:1;">
+        <button type="submit" class="btn btn-paid" style="padding:0.7rem 1.5rem;">搶先登記</button>
+      </form>
+      <div id="modal-signup-msg" style="color:var(--green);font-size:0.85rem;text-align:center;margin-top:0.5rem;display:none;"></div>
+    </div>
+  </div>
+
+  <a href="daily.html" class="fab" title="今日運勢">⭐</a>
+
+  <script src="js/lunar.js"></script>
+  <script src="js/ziwei.js"></script>
+  <script src="js/qimen.js"></script>
+  <script src="js/guide.js"></script>
+  <script src="js/global.js"></script>
+  <script>
+    // State
+    let currentResult = null;
+    let timerInterval = null;
+    let timerSeconds = 45 * 60;
+    let selectedConcern = '';
+
+    // Concern selection
+    document.querySelectorAll('.concern-option').forEach(el => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.concern-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedConcern = el.dataset.concern;
+      });
+    });
+
+    // Direction name → compass label mapping
+    const DIR_MAP = {
+      '北': 'N', '東北': 'NE', '東': 'E', '東南': 'SE',
+      '南': 'S', '西南': 'SW', '西': 'W', '西北': 'NW'
+    };
+
+    function runGuide() {
+      const year = parseInt(document.getElementById('birth-year').value);
+      const month = parseInt(document.getElementById('birth-month').value);
+      const day = parseInt(document.getElementById('birth-day').value);
+      const hour = parseInt(document.getElementById('birth-hour').value);
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+
+      if (!year || !month || !day || isNaN(hour)) {
+        alert('請完整填寫出生資訊');
+        return;
+      }
+      if (!selectedConcern) {
+        alert('請選擇想改善的方面');
+        return;
+      }
+
+      try {
+        currentResult = Guide.generateGuide(year, month, day, hour, gender, selectedConcern);
+        displayResult(currentResult);
+      } catch (e) {
+        console.error(e);
+        alert('分析過程發生錯誤，請檢查輸入資訊是否正確。');
+      }
+    }
+
+    function displayResult(r) {
+      const section = document.getElementById('result-section');
+      section.classList.add('visible');
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Direction
+      document.getElementById('r-direction').textContent = `往${r.direction.name}方前進`;
+      document.getElementById('r-palace-info').textContent = `${r.palaceName}（${r.door || ''}${r.star ? '・' + r.star : ''}${r.deity ? '・' + r.deity : ''}）`;
+
+      // Time
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
+      document.getElementById('r-time').textContent = `今日 ${r.shichen.label}`;
+      document.getElementById('r-time-sub').textContent = `${dateStr}（${r.shichen.range}）`;
+
+      // Benefits
+      document.getElementById('r-benefits').textContent = r.benefits.join('、');
+
+      // Notes
+      const notesList = document.getElementById('r-notes');
+      notesList.innerHTML = r.notes.map(n => `<li>${n}</li>`).join('');
+
+      // Analysis
+      document.getElementById('r-ziwei-analysis').textContent = r.ziweiAnalysis;
+      document.getElementById('r-qimen-analysis').textContent = r.qimenAnalysis;
+
+      // Animate compass
+      animateCompass(r.direction);
+
+      // Reset timer
+      resetTimer();
+    }
+
+    function animateCompass(direction) {
+      const needle = document.getElementById('compass-needle');
+      const glow = document.getElementById('direction-glow');
+
+      // CSS rotation: 0 = up (North). Our angle: N=0, NE=45, E=90, etc.
+      needle.style.transform = `rotate(${direction.angle}deg)`;
+
+      // Highlight active direction label
+      document.querySelectorAll('.compass-dir').forEach(d => d.classList.remove('active'));
+      const dirLabel = DIR_MAP[direction.name];
+      if (dirLabel) {
+        const activeDir = document.querySelector(`.compass-dir[data-dir="${dirLabel}"]`);
+        if (activeDir) activeDir.classList.add('active');
+      }
+
+      // Position glow
+      const cx = 140, cy = 140, r = 110;
+      const rad = (direction.angle - 90) * Math.PI / 180;
+      const gx = cx + r * Math.cos(rad) - 25;
+      const gy = cy + r * Math.sin(rad) - 25;
+      glow.style.left = gx + 'px';
+      glow.style.top = gy + 'px';
+    }
+
+    function toggleAnalysis() {
+      const header = document.getElementById('toggle-analysis');
+      const body = document.getElementById('analysis-body');
+      header.classList.toggle('open');
+      body.classList.toggle('open');
+    }
+
+    // Timer
+    function toggleTimer() {
+      const btn = document.getElementById('timer-btn');
+      const display = document.getElementById('timer-display');
+      const progress = document.getElementById('timer-progress');
+      const status = document.getElementById('timer-status');
+
+      if (timerInterval) {
+        // Stop
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.textContent = '⏱ 開始 45 分鐘轉運計時';
+        display.classList.remove('active');
+        progress.classList.remove('active');
+        status.classList.remove('active');
+        resetTimer();
+        return;
+      }
+
+      // Start
+      timerSeconds = 45 * 60;
+      btn.textContent = '⏸ 暫停計時';
+      display.classList.add('active');
+      progress.classList.add('active');
+      status.classList.add('active');
+
+      timerInterval = setInterval(() => {
+        timerSeconds--;
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          display.textContent = '00:00';
+          status.textContent = '🎉 轉運時間完成！願好運常伴你左右！';
+          btn.textContent = '✅ 完成！重新開始';
+          document.getElementById('timer-bar').style.width = '0%';
+          return;
+        }
+        const m = Math.floor(timerSeconds / 60);
+        const s = timerSeconds % 60;
+        display.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        const pct = (timerSeconds / (45 * 60)) * 100;
+        document.getElementById('timer-bar').style.width = pct + '%';
+      }, 1000);
+    }
+
+    function resetTimer() {
+      timerSeconds = 45 * 60;
+      document.getElementById('timer-display').textContent = '45:00';
+      document.getElementById('timer-bar').style.width = '100%';
+    }
+
+    function shareResult() {
+      if (!currentResult) return;
+      const text = `🧭 大師轉運指引\n方位：往${currentResult.direction.name}方\n時段：${currentResult.shichen.label}\n利於：${currentResult.benefits.join('、')}\n\n立即體驗 👉 ${location.href}`;
+      
+      if (navigator.share) {
+        navigator.share({ title: '大師轉運指引', text });
+      } else {
+        navigator.clipboard.writeText(text).then(() => {
+          alert('已複製到剪貼簿！');
+        });
+      }
+    }
+
+    function showPaidModal() {
+      document.getElementById('paid-modal').classList.add('active');
+    }
+    function closePaidModal() {
+      document.getElementById('paid-modal').classList.remove('active');
+    }
+    document.getElementById('paid-modal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closePaidModal();
+    });
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const email = e.target.querySelector('input[type="email"]').value;
+      if (!email) return;
+      // Store locally
+      const signups = JSON.parse(localStorage.getItem('fortune-signups') || '[]');
+      signups.push({ email, date: new Date().toISOString(), type: 'guide-premium' });
+      localStorage.setItem('fortune-signups', JSON.stringify(signups));
+
+      // Show success
+      const msgs = document.querySelectorAll('#signup-msg, #modal-signup-msg');
+      msgs.forEach(m => { m.textContent = '✅ 登記成功！我們會在功能上線時通知你。'; m.style.display = 'block'; });
+      e.target.querySelector('input[type="email"]').value = '';
+    }
+  </script>
+</body>
+</html>

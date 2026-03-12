@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>姓名學 - 免費姓名筆畫吉凶分析 | 天機命理</title>
+  <meta name="description" content="免費姓名學分析！輸入姓名，自動計算天格人格地格外格總格，五行吉凶一目瞭然。">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="loading-screen"><div class="loading-bagua">☯</div><div class="loading-text">分析中...</div></div>
+  <canvas id="starfield"></canvas>
+  <div class="checkin-banner"></div>
+  <div class="page-wrap">
+    <header class="site-header">
+      <nav>
+        <a href="index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理</a>
+        <button class="nav-toggle">☰</button>
+        <div class="nav-links">
+          <a href="guide.html">轉運指引 <span style="color:#ef4444;font-size:0.65rem;vertical-align:super;">HOT</span></a>
+          <a href="ziwei.html">紫微斗數</a>
+          <a href="bazi.html">八字排盤</a>
+          <a href="qimen.html">奇門遁甲</a>
+          <a href="name.html" class="active">姓名學</a>
+          <a href="daily.html">每日運勢</a>
+          <a href="paid-report.html" style="color:var(--gold);font-weight:700;">付費報告 ✦</a>
+          <div class="header-controls">
+            <button class="ctrl-btn" id="theme-toggle">☀️</button>
+            <button class="ctrl-btn" id="music-toggle">🔇</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="page-container">
+      <h1 class="page-title">✍️ 姓名學分析</h1>
+      <p class="page-subtitle">五格剖象法 · 康熙字典筆畫 · 姓名吉凶</p>
+
+      <div class="glass-box">
+        <div class="form-group">
+          <label>請輸入姓名（2-4個字）</label>
+          <input type="text" id="name-input" placeholder="例：王大明" maxlength="4" style="font-size:1.3rem;text-align:center;letter-spacing:0.5rem;">
+        </div>
+        <button class="btn btn-center" onclick="doName()">開始分析 ✦</button>
+      </div>
+
+      <div id="result" class="result-section">
+        <!-- Characters with stroke animation -->
+        <div id="char-display" style="display:flex;justify-content:center;gap:2rem;margin:2rem 0;"></div>
+
+        <!-- Overall Gauge -->
+        <div class="gauge-wrap" id="gauge-wrap"></div>
+
+        <!-- 五格 Flow -->
+        <h3 style="text-align:center;color:var(--text-muted);margin:1.5rem 0 0.5rem;font-size:0.85rem;letter-spacing:4px;">五 格 關 係</h3>
+        <div class="wuge-flow" id="wuge-flow"></div>
+
+        <!-- Grid cards -->
+        <div class="name-grid" id="name-grid"></div>
+
+        <!-- Interpretation -->
+        <div class="info-box" id="name-interp"></div>
+
+        <div style="text-align:center;margin-top:2rem;">
+          <button class="btn btn-paid" onclick="location.href='coming-soon.html'">✍️ 大師改名建議（即將推出）</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p class="disclaimer">⚠️ 本網站僅供娛樂參考，不構成任何專業建議。</p>
+      <p>© 2026 天機命理</p>
+    </footer>
+  </div>
+
+  <a href="daily.html" class="fab" title="今日運勢">⭐</a>
+
+  <script src="js/lunar.js"></script>
+  <script src="js/name.js"></script>
+  <script src="js/global.js"></script>
+  <script>
+    document.getElementById('name-input').addEventListener('keydown', e => { if(e.key==='Enter') doName(); });
+
+    function doName() {
+      const name = document.getElementById('name-input').value.trim();
+      if (name.length < 2 || name.length > 4) { alert('請輸入2-4個字的姓名'); return; }
+      const r = NameAnalysis.calculate(name);
+      if (r.error) { alert(r.error); return; }
+      renderName(r);
+    }
+
+    function renderName(r) {
+      document.getElementById('result').classList.add('visible');
+      document.getElementById('result').scrollIntoView({ behavior:'smooth', block:'start' });
+
+      // Character display with counting animation
+      let charHtml = '';
+      r.chars.forEach((c, i) => {
+        charHtml += `<div class="reveal-card" style="text-align:center;animation-delay:${i*0.2}s">
+          <div style="font-size:3rem;color:var(--gold);font-family:'Noto Serif TC',serif;text-shadow:0 0 20px rgba(255,215,0,0.3);">${c.char}</div>
+          <div style="color:var(--cyan);font-size:1.1rem;font-weight:700;margin-top:0.3rem;" class="stroke-count" data-target="${c.strokes}">0</div>
+          <div style="color:var(--text-muted);font-size:0.75rem;">畫</div>
+        </div>`;
+      });
+      document.getElementById('char-display').innerHTML = charHtml;
+
+      // Animate stroke counts
+      document.querySelectorAll('.stroke-count').forEach(el => {
+        const target = parseInt(el.dataset.target);
+        let current = 0;
+        const interval = setInterval(() => {
+          current++;
+          el.textContent = current;
+          if (current >= target) clearInterval(interval);
+        }, 60);
+      });
+
+      // Overall score gauge
+      const jiCount = r.grids.filter(g => g.fortune === '吉').length;
+      const score = Math.round((jiCount / 5) * 100);
+      const scoreColor = score >= 60 ? 'var(--green)' : score >= 40 ? 'var(--orange)' : 'var(--red)';
+      const circumference = 2 * Math.PI * 70;
+      const offset = circumference - (score / 100) * circumference;
+      document.getElementById('gauge-wrap').innerHTML = `
+        <div class="gauge-circle">
+          <svg width="160" height="160">
+            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--border)" stroke-width="6"/>
+            <circle cx="80" cy="80" r="70" fill="none" stroke="${scoreColor}" stroke-width="6"
+              stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"
+              stroke-linecap="round" transform="rotate(-90 80 80)"
+              style="transition:stroke-dashoffset 1.5s ease;">
+            </circle>
+          </svg>
+          <div class="gauge-text" style="color:${scoreColor}">${score}</div>
+          <div class="gauge-label">綜合吉凶評分</div>
+        </div>
+      `;
+      // Animate gauge
+      setTimeout(() => {
+        document.querySelector('.gauge-circle circle:nth-child(2)').style.strokeDashoffset = offset;
+      }, 100);
+
+      // 五格 flow
+      const flowHtml = r.grids.map((g, i) => {
+        const fColor = g.fortune === '吉' ? 'var(--green)' : g.fortune === '凶' ? 'var(--red)' : 'var(--orange)';
+        return (i > 0 ? '<span class="wuge-arrow">→</span>' : '') +
+          `<div class="wuge-node"><div style="font-size:0.75rem;color:var(--text-muted)">${g.name}</div><div style="font-size:1.3rem;font-weight:700;color:var(--gold)">${g.value}</div><div style="font-size:0.75rem;color:${fColor};font-weight:700;">${g.fortune}</div></div>`;
+      }).join('');
+      document.getElementById('wuge-flow').innerHTML = flowHtml;
+
+      // Grid cards
+      const wxColors = {'金':'#e2e8f0','木':'#4ade80','水':'#60a5fa','火':'#f87171','土':'#fbbf24'};
+      let gridHtml = '';
+      r.grids.forEach((g, i) => {
+        const fClass = g.fortune === '吉' ? 'fortune-ji' : g.fortune === '凶' ? 'fortune-xiong' : 'fortune-ban';
+        gridHtml += `<div class="name-cell reveal-card" style="animation-delay:${i*0.1}s">
+          <div class="ge-name">${g.name}</div>
+          <div class="strokes">${g.value}</div>
+          <div class="fortune ${fClass}">${g.fortune}</div>
+          <div style="color:${wxColors[g.wuxing]};font-size:0.85rem;margin-top:0.3rem;">五行：${g.wuxing}</div>
+          <div style="color:var(--text-muted);font-size:0.72rem;margin-top:0.3rem;">${g.desc}</div>
+        </div>`;
+      });
+      document.getElementById('name-grid').innerHTML = gridHtml;
+
+      // Interpretation
+      document.getElementById('name-interp').innerHTML = `<h4>📖 綜合分析</h4><p>${r.interpretation.replace(/\n/g,'<br>')}</p>`;
+    }
+  </script>
+</body>
+</html>

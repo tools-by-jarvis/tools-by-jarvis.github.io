@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日運勢 - 十二生肖 × 十二星座 | 天機命理</title>
+  <meta name="description" content="每日運勢！十二生肖、十二星座今日運勢全面分析：愛情、事業、財運、健康。每天更新。">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="loading-screen"><div class="loading-bagua">☯</div><div class="loading-text">算運中...</div></div>
+  <canvas id="starfield"></canvas>
+  <div class="checkin-banner"></div>
+  <div class="page-wrap">
+    <header class="site-header">
+      <nav>
+        <a href="index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理</a>
+        <button class="nav-toggle">☰</button>
+        <div class="nav-links">
+          <a href="guide.html">轉運指引 <span style="color:#ef4444;font-size:0.65rem;vertical-align:super;">HOT</span></a>
+          <a href="ziwei.html">紫微斗數</a>
+          <a href="bazi.html">八字排盤</a>
+          <a href="qimen.html">奇門遁甲</a>
+          <a href="name.html">姓名學</a>
+          <a href="daily.html" class="active">每日運勢</a>
+          <a href="paid-report.html" style="color:var(--gold);font-weight:700;">付費報告 ✦</a>
+          <div class="header-controls">
+            <button class="ctrl-btn" id="theme-toggle">☀️</button>
+            <button class="ctrl-btn" id="music-toggle">🔇</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="page-container">
+      <h1 class="page-title">⭐ 每日運勢</h1>
+      <p class="page-subtitle" id="date-display"></p>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('chinese',this)">🐲 十二生肖</button>
+        <button class="tab-btn" onclick="switchTab('western',this)">♈ 十二星座</button>
+      </div>
+
+      <!-- Chinese Zodiac Grid -->
+      <div id="chinese-tab">
+        <div class="zodiac-grid" id="chinese-grid"></div>
+      </div>
+
+      <!-- Western Zodiac Grid -->
+      <div id="western-tab" style="display:none;">
+        <div class="zodiac-grid" id="western-grid"></div>
+      </div>
+
+      <!-- Fortune Detail -->
+      <div id="fortune-detail"></div>
+    </div>
+
+    <footer class="site-footer">
+      <p class="disclaimer">⚠️ 本網站僅供娛樂參考，不構成任何專業建議。</p>
+      <p>© 2026 天機命理</p>
+    </footer>
+  </div>
+
+  <script src="js/lunar.js"></script>
+  <script src="js/daily.js"></script>
+  <script src="js/global.js"></script>
+  <script>
+    const today = new Date();
+    const dateStr = today.toISOString().slice(0,10);
+    const weekdays = ['日','一','二','三','四','五','六'];
+    document.getElementById('date-display').textContent =
+      `${today.getFullYear()} 年 ${today.getMonth()+1} 月 ${today.getDate()} 日 星期${weekdays[today.getDay()]}`;
+
+    let currentType = 'chinese';
+    let currentIdx = null;
+
+    // Build Chinese zodiac grid
+    const cGrid = document.getElementById('chinese-grid');
+    DailyFortune.ZODIAC_SIGNS.forEach((name, i) => {
+      cGrid.innerHTML += `<div class="zodiac-item" onclick="showFortune(${i},'chinese',this)" data-idx="${i}">
+        <span class="z-emoji">${DailyFortune.ZODIAC_EMOJI[i]}</span>
+        <span class="z-name">${name}</span>
+      </div>`;
+    });
+
+    // Build Western zodiac grid
+    const wGrid = document.getElementById('western-grid');
+    DailyFortune.WESTERN_SIGNS.forEach((name, i) => {
+      wGrid.innerHTML += `<div class="zodiac-item" onclick="showFortune(${i},'western',this)" data-idx="${i}">
+        <span class="z-emoji">${DailyFortune.WESTERN_EMOJI[i]}</span>
+        <span class="z-name">${name}</span>
+      </div>`;
+    });
+
+    function switchTab(type, btn) {
+      currentType = type;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('chinese-tab').style.display = type==='chinese'?'block':'none';
+      document.getElementById('western-tab').style.display = type==='western'?'block':'none';
+      document.getElementById('fortune-detail').innerHTML = '';
+    }
+
+    function showFortune(idx, type, el) {
+      // Toggle active state
+      const container = type==='chinese'?'chinese-grid':'western-grid';
+      document.querySelectorAll(`#${container} .zodiac-item`).forEach(z => z.classList.remove('active'));
+      el.classList.add('active');
+
+      const f = DailyFortune.generate(idx, type, dateStr);
+      const starsStr = n => '★'.repeat(n) + '☆'.repeat(5-n);
+
+      const colorMap = {'紅色':'#ef4444','橙色':'#f97316','黃色':'#eab308','綠色':'#22c55e','藍色':'#3b82f6','紫色':'#a855f7','白色':'#f1f5f9','粉色':'#ec4899','金色':'#ffd700','黑色':'#374151'};
+      const lcHex = colorMap[f.luckyColor] || '#ffd700';
+
+      let html = `<div class="fortune-detail">
+        <h3>${f.emoji} ${f.sign} 今日運勢</h3>`;
+
+      f.aspects.forEach(a => {
+        html += `<div class="fortune-aspect">
+          <span class="aspect-name">${a.name}</span>
+          <span class="aspect-stars">${starsStr(a.stars)}</span>
+          <span class="aspect-text">${a.text}</span>
+        </div>`;
+      });
+
+      html += `<div class="fortune-lucky">
+        <div class="lucky-item"><div class="lucky-label">幸運數字</div><div class="lucky-value">${f.luckyNumber}</div></div>
+        <div class="lucky-item"><div class="lucky-label">幸運色</div><div class="lucky-value" style="display:flex;align-items:center;gap:0.3rem;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${lcHex};border:1px solid rgba(255,255,255,0.2);"></span>${f.luckyColor}</div></div>
+        <div class="lucky-item"><div class="lucky-label">吉利方位</div><div class="lucky-value">${f.luckyDirection}</div></div>
+      </div>`;
+
+      // Tomorrow teaser
+      const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+      const tomorrowStr = tomorrow.toISOString().slice(0,10);
+      const tf = DailyFortune.generate(idx, type, tomorrowStr);
+      const avgStars = Math.round(tf.ratings.reduce((a,b)=>a+b,0)/tf.ratings.length);
+      html += `<div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--text-muted);">🔮 明日預告</div>
+        <div style="color:var(--gold);font-size:1.1rem;margin-top:0.3rem;">${starsStr(avgStars)}</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);">明天再來看完整運勢吧！</div>
+      </div>`;
+
+      html += '</div>';
+      document.getElementById('fortune-detail').innerHTML = html;
+      document.getElementById('fortune-detail').scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  </script>
+</body>
+</html>
