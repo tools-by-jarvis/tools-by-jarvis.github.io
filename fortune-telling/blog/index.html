@@ -1,89 +1,76 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>命理知識文章 | 天機命理部落格</title>
-  <meta name="description" content="命理知識大全：生肖運勢、八字排盤教學、五行解析、奇門遁甲入門、姓名學指南。免費學習命理知識。">
-  <meta name="keywords" content="命理知識,算命教學,八字教學,五行,奇門遁甲,姓名學,生肖運勢">
-  <meta property="og:title" content="命理知識文章 | 天機命理部落格">
-  <meta property="og:description" content="命理知識大全：生肖運勢、八字排盤教學、五行解析、奇門遁甲入門、姓名學指南。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://tools-by-jarvis.github.io/fortune-telling/blog/">
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    .blog-grid{max-width:900px;margin:2rem auto;display:grid;gap:1.5rem;padding:0 1rem;}
-    .blog-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;transition:var(--transition);text-decoration:none;color:var(--text-primary);}
-    .blog-card:hover{background:var(--bg-card-hover);border-color:var(--border-glow);transform:translateY(-2px);box-shadow:var(--glow-gold);}
-    .blog-card h2{font-family:'Noto Serif TC',serif;color:var(--gold);margin:0 0 0.5rem;font-size:1.3rem;}
-    .blog-card p{color:var(--text-secondary);line-height:1.8;margin:0 0 1rem;}
-    .blog-card .meta{font-size:0.8rem;color:var(--text-muted);}
-    .blog-hero{text-align:center;padding:3rem 1rem 1rem;}
-    .blog-hero h1{font-family:'Noto Serif TC',serif;color:var(--gold);font-size:2rem;}
-    .blog-hero p{color:var(--text-secondary);}
-    .tag{display:inline-block;background:rgba(255,215,0,0.1);color:var(--gold);padding:0.2rem 0.6rem;border-radius:20px;font-size:0.75rem;margin-right:0.3rem;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>命理文章｜天機命理</title>
+<meta name="description" content="天機命理命理教學文章：八字、紫微斗數、奇門遁甲、生肖運勢、姓名學、風水等完整教學。">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a2e;color:#e0e0e0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.8;padding:20px}
+.container{max-width:800px;margin:0 auto}
+h1{color:#ffd700;text-align:center;margin:30px 0}
+.category{margin:30px 0}
+.category h2{color:#ffd700;font-size:1.3em;margin-bottom:15px;padding-left:10px;border-left:3px solid #ffd700}
+.article-list a{display:block;color:#87ceeb;text-decoration:none;padding:8px 15px;margin:5px 0;background:#2d2d5e;border-radius:5px;transition:background 0.3s}
+.article-list a:hover{background:#3d3d7e;color:#ffd700}
+nav{text-align:center;padding:10px 0}
+nav a{color:#ffd700;text-decoration:none;margin:0 10px}
+</style>
 </head>
 <body>
-  <canvas id="starfield"></canvas>
-  <div class="page-wrap">
-    <header class="site-header">
-      <nav>
-        <a href="../index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理<span class="logo-sub">專業命理</span></a>
-        <button class="nav-toggle" aria-label="選單">☰</button>
-        <div class="nav-links">
-          <a href="../guide.html">轉運指引</a>
-          <a href="../bazi.html">八字排盤</a>
-          <a href="../qimen.html">奇門遁甲</a>
-          <a href="../name.html">姓名學</a>
-          <a href="../daily.html">每日運勢</a>
-        </div>
-      </nav>
-    </header>
+<div class="container">
+<nav><a href="/fortune-telling/">🔮 天機命理首頁</a></nav>
+<h1>📚 命理文章</h1>
+<div class="category"><h2>八字命理</h2><div class="article-list">
+<a href="bazi-basics.html">八字是什麼？5分鐘搞懂你的命盤</a>
+<a href="earthly-branches.html">天干地支入門：12地支與你的性格</a>
+<a href="five-elements.html">五行相生相剋完整解析</a>
+<a href="bazi-wealth.html">八字看財運：你天生適合什麼賺錢方式？</a>
+<a href="bazi-love.html">八字看感情：你的正緣什麼時候來？</a>
+<a href="bazi-career.html">八字看事業：找到命中注定的職業方向</a>
+</div></div>
+<div class="category"><h2>紫微斗數</h2><div class="article-list">
+<a href="ziwei-intro.html">紫微斗數入門：比八字更精準的命理工具</a>
+<a href="ziwei-14-stars.html">紫微十四主星解析：你是哪顆星？</a>
+<a href="ziwei-wealth-palace.html">紫微看財帛宮：你的財富密碼</a>
+<a href="ziwei-spouse-palace.html">紫微看夫妻宮：你的另一半長什麼樣？</a>
+<a href="ziwei-decade-luck.html">紫微大限流年：為什麼有些年特別衰？</a>
+<a href="ziwei-free-chart.html">紫微命盤免費排盤教學</a>
+</div></div>
+<div class="category"><h2>2026生肖運勢</h2><div class="article-list">
+<a href="2026-zodiac-overview.html">2026蛇年生肖運勢總覽</a>
+<a href="2026-tai-sui.html">2026犯太歲生肖：化解方法大公開</a>
+<a href="2026-wealth-ranking.html">12生肖2026財運排行榜</a>
+<a href="2026-love-ranking.html">12生肖2026感情運排行榜</a>
+<a href="2026-career-ranking.html">12生肖2026事業運排行榜</a>
+<a href="zodiac-compatibility.html">生肖配對：12生肖最佳組合</a>
+</div></div>
+<div class="category"><h2>奇門遁甲</h2><div class="article-list">
+<a href="qimen-intro.html">奇門遁甲是什麼？帝王之術入門</a>
+<a href="qimen-date-selection.html">奇門遁甲擇日：搬家開業怎麼選日子？</a>
+<a href="qimen-directions.html">奇門遁甲方位學：今天往哪個方向最旺？</a>
+<a href="qimen-investment.html">奇門遁甲實戰：用奇門看投資決策</a>
+</div></div>
+<div class="category"><h2>實用命理</h2><div class="article-list">
+<a href="name-analysis-intro.html">姓名學入門：名字真的會影響運勢嗎？</a>
+<a href="2026-luck-tips.html">2026開運方法：12個簡單提升運勢的技巧</a>
+<a href="temple-worship-guide.html">拜拜怎麼拜最有效？命理師教你正確方式</a>
+<a href="house-fengshui.html">買房看風水：5個一定要注意的格局</a>
+<a href="interview-colors.html">面試穿什麼顏色？用五行提升面試運</a>
+<a href="wedding-date-selection.html">結婚擇日：怎麼挑一個好日子？</a>
+<a href="baby-naming-guide.html">寶寶取名攻略：命理師的命名原則</a>
+<a href="is-fortune-telling-real.html">算命準嗎？科學角度看命理的價值</a>
+</div></div>
 
-    <section class="blog-hero">
-      <h1>📚 命理知識</h1>
-      <p>深入淺出的命理教學文章，帶你認識八字、五行、奇門遁甲等千年智慧</p>
-    </section>
-
-    <section class="blog-grid">
-      <a href="2026-zodiac-fortune.html" class="blog-card">
-        <h2>🐍 2026年12生肖運勢完整分析</h2>
-        <p>丙午蛇年，十二生肖事業、感情、財運、健康全面解析。搶先掌握新年運勢，趨吉避凶！</p>
-        <div><span class="tag">2026運勢</span><span class="tag">生肖運勢</span><span class="tag">蛇年</span></div>
-        <div class="meta">📅 2026-03-07 · 閱讀約 8 分鐘</div>
-      </a>
-      <a href="free-bazi-analysis.html" class="blog-card">
-        <h2>🏛️ 免費八字排盤教學：如何看懂你的四柱八字</h2>
-        <p>從零開始學八字！天干地支、五行生剋、十神關係完整教學，看懂自己的命盤不求人。</p>
-        <div><span class="tag">八字排盤</span><span class="tag">免費八字</span><span class="tag">四柱八字</span></div>
-        <div class="meta">📅 2026-03-07 · 閱讀約 8 分鐘</div>
-      </a>
-      <a href="five-elements-guide.html" class="blog-card">
-        <h2>🔥 五行屬性查詢：金木水火土完整解析</h2>
-        <p>了解你的五行屬性！金木水火土個性特質、適合職業、開運方法一次看懂。</p>
-        <div><span class="tag">五行查詢</span><span class="tag">五行屬性</span><span class="tag">金木水火土</span></div>
-        <div class="meta">📅 2026-03-07 · 閱讀約 8 分鐘</div>
-      </a>
-      <a href="qimen-dunjia-intro.html" class="blog-card">
-        <h2>🔮 奇門遁甲入門：帝王之術的現代應用</h2>
-        <p>揭開奇門遁甲的神秘面紗！歷史源流、九宮八卦基礎、現代實用場景完整介紹。</p>
-        <div><span class="tag">奇門遁甲</span><span class="tag">奇門遁甲教學</span><span class="tag">帝王之術</span></div>
-        <div class="meta">📅 2026-03-07 · 閱讀約 8 分鐘</div>
-      </a>
-      <a href="name-numerology.html" class="blog-card">
-        <h2>✍️ 姓名學筆畫吉凶：取名改名完整指南</h2>
-        <p>五格剖象法完整教學！天格、人格、地格、外格、總格計算方式，吉凶數字一覽表。</p>
-        <div><span class="tag">姓名學</span><span class="tag">筆畫吉凶</span><span class="tag">取名</span></div>
-        <div class="meta">📅 2026-03-07 · 閱讀約 8 分鐘</div>
-      </a>
-    </section>
-
-    <footer class="site-footer">
-      <p class="disclaimer">⚠️ 本網站僅供娛樂參考，不構成任何專業建議。命運掌握在自己手中。</p>
-      <p>© 2026 天機命理 | 專業命理分析平台</p>
-    </footer>
-  </div>
-  <script src="../js/global.js"></script>
-</body>
-</html>
+<div class="category">
+<h2>更多文章</h2>
+<div class="article-list">
+<a href="free-bazi-analysis.html">免費八字分析指南</a>
+<a href="five-elements-guide.html">五行完整入門指南</a>
+<a href="2026-zodiac-fortune.html">2026生肖運勢詳解</a>
+<a href="name-numerology.html">姓名數字學</a>
+<a href="qimen-dunjia-intro.html">奇門遁甲入門介紹</a>
+</div>
+</div>
+</div></body></html>
