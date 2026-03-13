@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>免費八字排盤教學：如何看懂你的四柱八字 - 天機命理</title>
+  <meta name="description" content="免費八字排盤完整教學！從天干地支基礎到五行生剋、十神關係，手把手教你看懂四柱八字命盤，掌握人生運勢密碼。">
+  <meta name="keywords" content="八字排盤,免費八字,四柱八字,八字教學,天干地支,五行,十神,八字入門,免費算命">
+  <meta property="og:title" content="免費八字排盤教學：如何看懂你的四柱八字">
+  <meta property="og:description" content="從零開始學八字！天干地支、五行生剋、十神關係完整教學。">
+  <meta property="og:url" content="https://tools-by-jarvis.github.io/fortune-telling/blog/free-bazi-analysis.html">
+  <meta property="og:type" content="article">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .article{max-width:800px;margin:2rem auto;padding:0 1.5rem;}
+    .article h1{font-family:'Noto Serif TC',serif;color:var(--gold);font-size:2rem;text-align:center;margin:2rem 0 1rem;}
+    .article h2{font-family:'Noto Serif TC',serif;color:var(--gold-light);font-size:1.4rem;margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border);}
+    .article h3{color:var(--cyan);font-size:1.1rem;margin:1.5rem 0 0.5rem;}
+    .article p,.article li{color:var(--text-secondary);line-height:2;margin:0.8rem 0;}
+    .article ul,.article ol{padding-left:1.5rem;}
+    .article .meta{text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:2rem;}
+    .cta-box{background:linear-gradient(135deg,rgba(255,215,0,0.08),rgba(0,229,255,0.05));border:1px solid var(--border-glow);border-radius:var(--radius);padding:1.5rem;text-align:center;margin:2rem 0;}
+    .cta-box a{color:var(--gold);font-weight:700;text-decoration:underline;}
+    .info-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;}
+    .breadcrumb{text-align:center;margin-top:2rem;font-size:0.85rem;}
+    .breadcrumb a{color:var(--gold);text-decoration:none;}
+    table{width:100%;border-collapse:collapse;margin:1rem 0;}
+    th,td{border:1px solid var(--border);padding:0.5rem;text-align:center;color:var(--text-secondary);font-size:0.9rem;}
+    th{background:rgba(255,215,0,0.1);color:var(--gold);}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Article",
+    "headline":"免費八字排盤教學：如何看懂你的四柱八字",
+    "description":"完整八字排盤教學，從天干地支基礎到十神分析。",
+    "datePublished":"2026-03-07",
+    "author":{"@type":"Organization","name":"天機命理"},
+    "publisher":{"@type":"Organization","name":"天機命理"},
+    "mainEntityOfPage":"https://tools-by-jarvis.github.io/fortune-telling/blog/free-bazi-analysis.html"
+  }
+  </script>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="page-wrap">
+    <header class="site-header">
+      <nav>
+        <a href="../index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理<span class="logo-sub">專業命理</span></a>
+        <button class="nav-toggle" aria-label="選單">☰</button>
+        <div class="nav-links">
+          <a href="../guide.html">轉運指引</a>
+          <a href="../bazi.html">八字排盤</a>
+          <a href="../qimen.html">奇門遁甲</a>
+          <a href="../name.html">姓名學</a>
+          <a href="../daily.html">每日運勢</a>
+        </div>
+      </nav>
+    </header>
+
+    <article class="article">
+      <div class="breadcrumb"><a href="../index.html">首頁</a> › <a href="index.html">命理知識</a> › 八字排盤教學</div>
+      <h1>🏛️ 免費八字排盤教學：如何看懂你的四柱八字</h1>
+      <div class="meta">📅 2026年3月7日 · 閱讀約 8 分鐘 · 作者：天機命理團隊</div>
+
+      <p>八字命理是中華文化中最重要的命理系統之一，至今已有超過千年的歷史。所謂「八字」，就是用你出生的<strong>年、月、日、時</strong>四個時間點，各配上一組天干地支，共八個字，來推算一個人的先天命格與後天運勢。</p>
+
+      <p>聽起來很複雜？別擔心！本文將從最基礎的概念開始，一步一步帶你了解八字的奧秘。讀完這篇文章，你就能初步看懂自己的八字命盤了！</p>
+
+      <div class="cta-box">
+        🎯 邊學邊練！立即使用 <a href="../bazi.html">免費八字排盤工具</a>，輸入你的出生資料，對照本文學習！
+      </div>
+
+      <h2>一、什麼是四柱八字？</h2>
+      <p>四柱八字，又稱「子平八字」或「生辰八字」，是以一個人出生的<strong>年、月、日、時</strong>為基礎，利用天干地支的組合來分析命運的預測系統。</p>
+
+      <div class="info-box">
+        <h3>四柱分別代表：</h3>
+        <ul>
+          <li><strong>年柱</strong>：代表祖先、長輩、童年運（1-16歲）</li>
+          <li><strong>月柱</strong>：代表父母、兄弟、青年運（17-32歲）</li>
+          <li><strong>日柱</strong>：代表自己、配偶、壯年運（33-48歲）</li>
+          <li><strong>時柱</strong>：代表子女、晚輩、晚年運（49歲以後）</li>
+        </ul>
+      </div>
+
+      <p>每一柱由一個<strong>天干</strong>和一個<strong>地支</strong>組成，四柱共八個字，所以叫做「八字」。其中，<strong>日柱的天干</strong>（又稱「日主」或「日元」）代表你自己，是整個八字分析的核心。</p>
+
+      <h2>二、天干地支基礎</h2>
+
+      <h3>十天干</h3>
+      <p>天干共有十個，分別是：</p>
+      <table>
+        <tr><th>天干</th><th>甲</th><th>乙</th><th>丙</th><th>丁</th><th>戊</th><th>己</th><th>庚</th><th>辛</th><th>壬</th><th>癸</th></tr>
+        <tr><td>五行</td><td>陽木</td><td>陰木</td><td>陽火</td><td>陰火</td><td>陽土</td><td>陰土</td><td>陽金</td><td>陰金</td><td>陽水</td><td>陰水</td></tr>
+      </table>
+
+      <h3>十二地支</h3>
+      <p>地支共有十二個，對應十二生肖：</p>
+      <table>
+        <tr><th>地支</th><th>子</th><th>丑</th><th>寅</th><th>卯</th><th>辰</th><th>巳</th><th>午</th><th>未</th><th>申</th><th>酉</th><th>戌</th><th>亥</th></tr>
+        <tr><td>生肖</td><td>鼠</td><td>牛</td><td>虎</td><td>兔</td><td>龍</td><td>蛇</td><td>馬</td><td>羊</td><td>猴</td><td>雞</td><td>狗</td><td>豬</td></tr>
+        <tr><td>五行</td><td>水</td><td>土</td><td>木</td><td>木</td><td>土</td><td>火</td><td>火</td><td>土</td><td>金</td><td>金</td><td>土</td><td>水</td></tr>
+      </table>
+
+      <h2>三、五行生剋關係</h2>
+      <p>五行（金、木、水、火、土）之間存在<strong>相生</strong>和<strong>相剋</strong>的關係，這是八字分析的核心邏輯：</p>
+
+      <div class="info-box">
+        <h3>五行相生（互助）</h3>
+        <p>木生火 → 火生土 → 土生金 → 金生水 → 水生木</p>
+        <h3>五行相剋（制約）</h3>
+        <p>木剋土 → 土剋水 → 水剋火 → 火剋金 → 金剋木</p>
+      </div>
+
+      <p>在八字中，五行的平衡非常重要。如果某種五行過旺或過弱，就會影響命主的運勢和性格。例如，木太旺的人可能性格固執，火太弱的人可能缺乏熱情和動力。</p>
+
+      <h2>四、十神系統——八字的靈魂</h2>
+      <p>十神是八字分析中最重要的概念之一。它是以「日主」（日柱天干）為中心，根據其他七個字與日主的五行生剋關係和陰陽屬性，劃分出十種關係：</p>
+
+      <div class="info-box">
+        <h3>十神對照表</h3>
+        <ul>
+          <li><strong>比肩、劫財</strong>（同我者）：代表兄弟姐妹、同輩、競爭</li>
+          <li><strong>食神、傷官</strong>（我生者）：代表才華、表現、子女</li>
+          <li><strong>正財、偏財</strong>（我剋者）：代表錢財、妻子（男命）</li>
+          <li><strong>正官、七殺</strong>（剋我者）：代表事業、壓力、丈夫（女命）</li>
+          <li><strong>正印、偏印</strong>（生我者）：代表學業、長輩、庇護</li>
+        </ul>
+      </div>
+
+      <p>舉例來說，如果你的日主是「甲木」，那麼：</p>
+      <ul>
+        <li>甲、乙（木）→ 比肩、劫財</li>
+        <li>丙、丁（火）→ 食神、傷官</li>
+        <li>戊、己（土）→ 偏財、正財</li>
+        <li>庚、辛（金）→ 七殺、正官</li>
+        <li>壬、癸（水）→ 偏印、正印</li>
+      </ul>
+
+      <h2>五、如何排八字？</h2>
+      <p>手動排八字需要查萬年曆，過程相當繁瑣。現代人通常使用線上排盤工具，只要輸入出生的年月日時，系統就能自動計算出你的四柱八字。</p>
+
+      <h3>排盤步驟：</h3>
+      <ol>
+        <li><strong>確認出生資料</strong>：需要準確的出生年、月、日、時（越精確越好）</li>
+        <li><strong>確認出生地</strong>：需要換算成真太陽時（考慮時區和經度差異）</li>
+        <li><strong>排出四柱</strong>：根據萬年曆對應天干地支</li>
+        <li><strong>排出大運</strong>：根據性別和年干陰陽，推算十年一運的大運</li>
+        <li><strong>分析命盤</strong>：綜合五行、十神、神煞等進行解讀</li>
+      </ol>
+
+      <div class="cta-box">
+        ✨ 不想手動計算？使用 <a href="../bazi.html">天機命理免費八字排盤</a>，一鍵生成你的完整命盤！<br>系統會自動計算四柱、五行分佈、十神關係、大運流年。
+      </div>
+
+      <h2>六、八字看性格</h2>
+      <p>日主的五行屬性可以反映一個人的基本性格特質：</p>
+      <ul>
+        <li><strong>甲木（大樹）</strong>：正直、有領導力、有時固執</li>
+        <li><strong>乙木（花草）</strong>：柔和、有藝術感、善於協調</li>
+        <li><strong>丙火（太陽）</strong>：熱情、大方、有感染力</li>
+        <li><strong>丁火（蠟燭）</strong>：細膩、有洞察力、善於分析</li>
+        <li><strong>戊土（大山）</strong>：穩重、誠信、有包容力</li>
+        <li><strong>己土（田園）</strong>：溫和、務實、善於照顧他人</li>
+        <li><strong>庚金（刀劍）</strong>：果斷、有魄力、重義氣</li>
+        <li><strong>辛金（珠寶）</strong>：精緻、有品味、追求完美</li>
+        <li><strong>壬水（大海）</strong>：智慧、包容、善於謀略</li>
+        <li><strong>癸水（雨露）</strong>：聰明、敏感、直覺強</li>
+      </ul>
+
+      <h2>七、八字看財運與事業</h2>
+      <p>在八字中，<strong>財星</strong>（正財和偏財）代表一個人的財富能力：</p>
+      <ul>
+        <li><strong>正財旺</strong>：適合穩定的工作收入，如公務員、上班族</li>
+        <li><strong>偏財旺</strong>：適合投資、業務、經商</li>
+        <li><strong>官星旺</strong>：適合公職、管理階層</li>
+        <li><strong>食傷旺</strong>：適合創意工作、自由業、藝術</li>
+        <li><strong>印星旺</strong>：適合學術研究、教育、出版</li>
+      </ul>
+
+      <p>當然，單看一個十神不夠準確，需要綜合整個命盤來判斷。八字的精妙之處在於「五行平衡」——缺什麼補什麼，旺什麼洩什麼。</p>
+
+      <h2>八、大運與流年</h2>
+      <p>八字不只看先天命格，還要配合<strong>大運</strong>和<strong>流年</strong>來判斷每個階段的運勢：</p>
+      <ul>
+        <li><strong>大運</strong>：每十年一個階段，代表人生的大方向</li>
+        <li><strong>流年</strong>：每年的運勢，代表當年的際遇</li>
+        <li><strong>流月</strong>：每月的運勢，更細微的變化</li>
+      </ul>
+      <p>當大運和流年的五行對命主有利時，那段時間運勢就好；反之則需要注意。這就是為什麼同樣八字的人，在不同年份會有不同的境遇。</p>
+
+      <h2>九、初學者常見問題</h2>
+
+      <h3>Q1：不知道確切出生時間怎麼辦？</h3>
+      <p>出生時辰對八字影響很大，如果不確定，可以先以「不排時柱」的方式看六字，或找專業命理師透過已知事件反推時辰。</p>
+
+      <h3>Q2：八字相同的人命運一樣嗎？</h3>
+      <p>不會完全一樣。八字是先天的「設計圖」，但後天的環境、選擇、努力都會影響最終結果。同八字的人可能走類似的運勢曲線，但具體表現因人而異。</p>
+
+      <h3>Q3：八字可以改命嗎？</h3>
+      <p>八字本身不能改變，但可以透過「趨吉避凶」來調整。例如：五行缺水可以從事與水相關的行業、住在北方、穿著藍黑色等。</p>
+
+      <div class="cta-box">
+        🔮 準備好探索你的命盤了嗎？<br><br>
+        👉 <a href="../bazi.html">立即免費排盤</a> — 輸入出生資料，秒出完整八字命盤<br>
+        👉 <a href="five-elements-guide.html">五行完整解析</a> — 深入了解你的五行屬性<br>
+        👉 <a href="2026-zodiac-fortune.html">2026生肖運勢</a> — 看看你的蛇年運勢如何
+      </div>
+    </article>
+
+    <footer class="site-footer">
+      <p class="disclaimer">⚠️ 本網站僅供娛樂參考，不構成任何專業建議。命運掌握在自己手中。</p>
+      <p>© 2026 天機命理 | 專業命理分析平台</p>
+    </footer>
+  </div>
+  <script src="../js/global.js"></script>
+</body>
+</html>
