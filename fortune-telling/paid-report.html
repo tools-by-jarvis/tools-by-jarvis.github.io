@@ -3,429 +3,405 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>付費命理報告 | 天機命理 AI深度解析</title>
-  <meta name="description" content="天機命理付費服務：基礎八字詳批、完整流年報告、奇門遁甲決策、VIP全方位命理報告。專業AI深度分析，24小時內email寄送。">
+  <title>付費服務 | 天機命理</title>
+  <meta name="description" content="天機命理付費服務：個人命盤解讀、專題深入分析、年度完整規劃、奇門遁甲改運。專業命理師為您量身打造。">
   <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    .products { max-width:1200px; margin:2rem auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem; padding:0 1rem; }
-    .product-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:2rem 1.5rem; text-align:center; transition:var(--transition); position:relative; overflow:hidden; }
-    .product-card:hover { background:var(--bg-card-hover); border-color:var(--border-glow); box-shadow:var(--glow-gold); transform:translateY(-4px); }
-    .product-card.featured { border-color:var(--gold); }
-    .product-card.featured::before { content:"最超值"; position:absolute; top:14px; right:-28px; background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:#000; font-size:0.7rem; font-weight:700; padding:0.2rem 2.5rem; transform:rotate(45deg); z-index:2; }
-    .product-card.vip { border-color:var(--magenta); }
-    .product-card.vip::before { content:"VIP"; position:absolute; top:14px; right:-28px; background:linear-gradient(135deg,var(--magenta),var(--purple)); color:#fff; font-size:0.7rem; font-weight:700; padding:0.2rem 2.5rem; transform:rotate(45deg); z-index:2; }
-    .product-icon { font-size:3rem; margin-bottom:0.8rem; }
-    .product-title { font-family:'Noto Serif TC',serif; font-size:1.3rem; color:var(--gold); margin-bottom:0.5rem; }
-    .product-price { font-size:2rem; font-weight:900; color:var(--gold-light); margin:0.8rem 0; }
-    .product-price .currency { font-size:1rem; font-weight:400; }
-    .product-desc { color:var(--text-secondary); font-size:0.85rem; line-height:1.8; text-align:left; margin-bottom:1.5rem; padding:0; }
-    .product-desc li { margin-bottom:0.3rem; list-style:none; }
-    .product-desc li::before { content:"✦ "; color:var(--gold); }
-    .buy-btn { display:inline-block; background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:#000; font-weight:700; font-size:1rem; padding:0.8rem 2.5rem; border-radius:50px; border:none; cursor:pointer; transition:var(--transition); text-decoration:none; width:100%; box-sizing:border-box; }
-    .buy-btn:hover { transform:scale(1.05); box-shadow:0 0 20px rgba(255,215,0,0.4); }
-    .buy-btn.vip-btn { background:linear-gradient(135deg,var(--magenta),var(--purple)); color:#fff; }
-    .buy-btn.vip-btn:hover { box-shadow:0 0 20px rgba(224,64,251,0.4); }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
-    /* Modal */
-    .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; }
-    .modal-overlay.active { display:flex; }
-    .modal { background:var(--bg-mid); border:1px solid var(--border-glow); border-radius:var(--radius); padding:2rem; max-width:500px; width:90%; max-height:90vh; overflow-y:auto; }
-    .modal h2 { font-family:'Noto Serif TC',serif; color:var(--gold); text-align:center; margin-bottom:0.5rem; font-size:1.3rem; }
-    .modal .modal-price { text-align:center; color:var(--gold-light); font-size:1.5rem; font-weight:900; margin-bottom:1.5rem; }
-    .form-group { margin-bottom:1rem; }
-    .form-group label { display:block; color:var(--text-secondary); font-size:0.85rem; margin-bottom:0.3rem; }
-    .form-group input, .form-group select, .form-group textarea { width:100%; padding:0.6rem; background:var(--bg-card); border:1px solid var(--border); border-radius:8px; color:var(--text-primary); font-size:0.95rem; box-sizing:border-box; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline:none; border-color:var(--gold); }
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; }
-    .modal .buy-btn { margin-top:1rem; }
-    .close-modal { float:right; background:none; border:none; color:var(--text-secondary); font-size:1.5rem; cursor:pointer; line-height:1; }
-    .close-modal:hover { color:var(--gold); }
+    .pricing-page {
+      min-height:100vh;
+      background:linear-gradient(180deg, #0a0a0f 0%, #12121f 40%, #0d0d18 100%);
+      color:#e8e6e3;
+      font-family:'Noto Serif TC', serif;
+      position:relative;
+      overflow-x:hidden;
+    }
 
-    .page-title { text-align:center; padding:2rem 1rem 0; }
-    .page-title h1 { font-family:'Noto Serif TC',serif; font-size:2rem; color:var(--gold); }
-    .page-title p { color:var(--text-secondary); margin-top:0.5rem; font-size:0.95rem; }
+    /* Ink wash subtle background */
+    .pricing-page::before {
+      content:'';
+      position:fixed;
+      top:0; left:0; width:100%; height:100%;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(139,115,85,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(180,160,120,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(100,80,60,0.05) 0%, transparent 60%);
+      pointer-events:none;
+      z-index:0;
+    }
 
-    .guarantee { text-align:center; color:var(--text-muted); font-size:0.8rem; margin:2rem auto; max-width:700px; padding:1rem; line-height:1.8; }
-    .guarantee span { color:var(--gold); }
+    .page-content {
+      position:relative;
+      z-index:1;
+      max-width:1200px;
+      margin:0 auto;
+      padding:2rem 1.5rem 4rem;
+    }
 
-    .process-steps { max-width:800px; margin:2rem auto; display:flex; justify-content:center; gap:0; padding:0 1rem; flex-wrap:wrap; }
-    .step { text-align:center; flex:1; min-width:120px; position:relative; padding:0 0.5rem; }
-    .step-num { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:#000; font-weight:700; font-size:0.9rem; margin-bottom:0.5rem; }
-    .step-text { color:var(--text-secondary); font-size:0.8rem; }
-    .step-arrow { color:var(--gold); font-size:1.2rem; line-height:36px; }
+    /* Header / Nav */
+    .site-header {
+      background:rgba(10,10,15,0.9);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(180,160,120,0.15);
+      padding:0.8rem 1.5rem;
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+    .site-header nav {
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .site-logo {
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      color:#c9a84c;
+      font-size:1.2rem;
+      font-weight:700;
+    }
+    .logo-icon { font-size:1.5rem; }
+    .logo-sub { font-size:0.7rem; color:#8a8070; margin-left:0.3rem; font-weight:400; }
+    .nav-links {
+      display:flex;
+      align-items:center;
+      gap:1.2rem;
+      flex-wrap:wrap;
+    }
+    .nav-links a {
+      color:#a09888;
+      text-decoration:none;
+      font-size:0.85rem;
+      transition:color 0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color:#c9a84c;
+    }
+    .nav-toggle {
+      display:none;
+      background:none;
+      border:none;
+      color:#c9a84c;
+      font-size:1.5rem;
+      cursor:pointer;
+    }
 
-    /* Success page */
-    .success-msg { max-width:600px; margin:3rem auto; text-align:center; padding:2rem; background:var(--bg-card); border:1px solid var(--border-glow); border-radius:var(--radius); }
-    .success-msg .icon { font-size:4rem; margin-bottom:1rem; }
-    .success-msg h2 { font-family:'Noto Serif TC',serif; color:var(--gold); margin-bottom:1rem; }
-    .success-msg p { color:var(--text-secondary); line-height:1.8; }
+    /* Page Title */
+    .page-hero {
+      text-align:center;
+      padding:3rem 0 1rem;
+    }
+    .page-hero h1 {
+      font-size:2.2rem;
+      font-weight:900;
+      color:#c9a84c;
+      letter-spacing:0.1em;
+      margin-bottom:0.8rem;
+    }
+    .page-hero .subtitle {
+      color:#8a8070;
+      font-size:1rem;
+      font-weight:400;
+      line-height:1.8;
+    }
+    .divider {
+      width:60px;
+      height:2px;
+      background:linear-gradient(90deg, transparent, #c9a84c, transparent);
+      margin:1.5rem auto 2.5rem;
+    }
 
-    @media(max-width:600px) {
-      .products { grid-template-columns:1fr; }
-      .process-steps { flex-direction:column; align-items:center; }
-      .step-arrow { transform:rotate(90deg); }
+    /* Cards Grid */
+    .cards-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(270px, 1fr));
+      gap:1.8rem;
+      margin-bottom:3rem;
+    }
+
+    .service-card {
+      background:linear-gradient(160deg, rgba(20,20,30,0.95), rgba(15,15,22,0.98));
+      border:1px solid rgba(180,160,120,0.12);
+      border-radius:16px;
+      padding:2.2rem 1.8rem 1.8rem;
+      position:relative;
+      transition:all 0.4s ease;
+      display:flex;
+      flex-direction:column;
+    }
+    .service-card:hover {
+      border-color:rgba(201,168,76,0.4);
+      transform:translateY(-6px);
+      box-shadow:0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(201,168,76,0.08);
+    }
+
+    .service-card.popular {
+      border-color:rgba(201,168,76,0.35);
+    }
+    .popular-badge {
+      position:absolute;
+      top:-1px;
+      right:24px;
+      background:linear-gradient(135deg, #c9a84c, #a68832);
+      color:#0a0a0f;
+      font-size:0.7rem;
+      font-weight:700;
+      padding:0.35rem 1rem;
+      border-radius:0 0 8px 8px;
+      letter-spacing:0.05em;
+    }
+
+    .card-icon {
+      font-size:2.5rem;
+      margin-bottom:1rem;
+    }
+
+    .card-title {
+      font-size:1.25rem;
+      font-weight:700;
+      color:#e8e6e3;
+      margin-bottom:0.4rem;
+    }
+
+    .card-price {
+      font-size:2.2rem;
+      font-weight:900;
+      color:#c9a84c;
+      margin:0.8rem 0;
+    }
+    .card-price .nt { font-size:1rem; font-weight:400; opacity:0.8; }
+
+    .card-features {
+      list-style:none;
+      padding:0;
+      margin:1rem 0 1.5rem;
+      flex:1;
+    }
+    .card-features li {
+      font-size:0.9rem;
+      color:#b0a898;
+      line-height:2;
+      padding-left:0;
+    }
+
+    .cta-btn {
+      display:block;
+      width:100%;
+      text-align:center;
+      padding:0.9rem 1.5rem;
+      border-radius:50px;
+      font-size:1rem;
+      font-weight:700;
+      text-decoration:none;
+      transition:all 0.3s ease;
+      border:none;
+      cursor:pointer;
+      font-family:'Noto Serif TC', serif;
+    }
+    .cta-btn.gold {
+      background:linear-gradient(135deg, #c9a84c, #a68832);
+      color:#0a0a0f;
+    }
+    .cta-btn.gold:hover {
+      box-shadow:0 0 24px rgba(201,168,76,0.4);
+      transform:scale(1.03);
+    }
+    .cta-btn.outline {
+      background:transparent;
+      border:1.5px solid rgba(201,168,76,0.4);
+      color:#c9a84c;
+    }
+    .cta-btn.outline:hover {
+      background:rgba(201,168,76,0.08);
+      border-color:#c9a84c;
+    }
+
+    /* Payment Info */
+    .payment-section {
+      background:linear-gradient(160deg, rgba(20,20,30,0.95), rgba(15,15,22,0.98));
+      border:1px solid rgba(180,160,120,0.12);
+      border-radius:16px;
+      padding:2rem 2.5rem;
+      text-align:center;
+      max-width:600px;
+      margin:0 auto 2rem;
+    }
+    .payment-section h3 {
+      color:#c9a84c;
+      font-size:1.2rem;
+      margin-bottom:1rem;
+    }
+    .payment-section p {
+      color:#8a8070;
+      font-size:0.95rem;
+      line-height:2;
+    }
+    .payment-section a {
+      color:#c9a84c;
+      text-decoration:none;
+      font-weight:700;
+    }
+    .payment-section a:hover {
+      text-decoration:underline;
+    }
+
+    /* Footer */
+    .page-footer {
+      text-align:center;
+      padding:2rem 0 1rem;
+      border-top:1px solid rgba(180,160,120,0.1);
+      color:#5a5248;
+      font-size:0.8rem;
+    }
+    .page-footer a {
+      color:#8a8070;
+      text-decoration:none;
+    }
+    .page-footer a:hover { color:#c9a84c; }
+
+    @media(max-width:768px) {
+      .cards-grid { grid-template-columns:1fr; gap:1.2rem; }
+      .page-hero h1 { font-size:1.6rem; }
+      .card-price { font-size:1.8rem; }
+      .nav-links { display:none; }
+      .nav-toggle { display:block; }
+      .nav-links.open {
+        display:flex;
+        flex-direction:column;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:rgba(10,10,15,0.98);
+        padding:1rem;
+        border-bottom:1px solid rgba(180,160,120,0.15);
+      }
+      .payment-section { padding:1.5rem 1.2rem; }
     }
   </style>
 </head>
-<body>
+<body class="pricing-page">
   <canvas id="starfield"></canvas>
-  <div class="page-wrap">
-    <header class="site-header">
-      <nav>
-        <a href="index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理<span class="logo-sub">專業命理</span></a>
-        <button class="nav-toggle" aria-label="選單">☰</button>
-        <div class="nav-links">
-          <a href="guide.html">轉運指引</a>
-          <a href="ziwei.html">紫微斗數</a>
-          <a href="bazi.html">八字排盤</a>
-          <a href="qimen.html">奇門遁甲</a>
-          <a href="name.html">姓名學</a>
-          <a href="daily.html">每日運勢</a>
-          <a href="paid-report.html" style="color:var(--gold);font-weight:700;">付費報告 ✦</a>
-          <div class="header-controls">
-            <button class="ctrl-btn" id="theme-toggle" title="切換主題">☀️</button>
-            <button class="ctrl-btn" id="music-toggle" title="背景音樂">🔇</button>
-          </div>
-        </div>
-      </nav>
-    </header>
 
-    <!-- 成功頁面（付款後返回顯示） -->
-    <div id="successPage" style="display:none;">
-      <section class="success-msg">
-        <div class="icon">✅</div>
-        <h2>已收到您的訂單！</h2>
-        <p>
-          感謝您購買天機命理報告服務。<br><br>
-          📧 我們將在 <strong style="color:var(--gold);">24小時內</strong> 以 email 寄送您的專屬報告。<br><br>
-          如有任何問題，請聯繫：<br>
-          <a href="mailto:pololkj38@gmail.com" style="color:var(--cyan);">pololkj38@gmail.com</a>
-        </p>
-        <br>
-        <a href="index.html" class="buy-btn" style="width:auto;display:inline-block;">← 返回首頁</a>
-      </section>
-    </div>
+  <header class="site-header">
+    <nav>
+      <a href="index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理<span class="logo-sub">專業命理</span></a>
+      <button class="nav-toggle" aria-label="選單" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+      <div class="nav-links">
+        <a href="guide.html">轉運指引</a>
+        <a href="ziwei.html">紫微斗數</a>
+        <a href="bazi.html">八字排盤</a>
+        <a href="qimen.html">奇門遁甲</a>
+        <a href="name.html">姓名學</a>
+        <a href="daily.html">每日運勢</a>
+        <a href="paid-report.html" class="active" style="color:#c9a84c;font-weight:700;">付費服務 ✦</a>
+      </div>
+    </nav>
+  </header>
 
-    <!-- 正常頁面 -->
-    <div id="mainPage">
-      <section class="page-title">
-        <h1>✦ 專業命理報告服務 ✦</h1>
-        <p>結合千年命理智慧與 AI 深度分析，為您量身打造專業報告</p>
-      </section>
+  <div class="page-content">
+    <section class="page-hero">
+      <h1>✦ 專業命理服務 ✦</h1>
+      <p class="subtitle">千年命理智慧，為您量身解讀<br>專業命理師親自分析，PDF 報告交付</p>
+      <div class="divider"></div>
+    </section>
 
-      <!-- 購買流程 -->
-      <div class="process-steps">
-        <div class="step"><div class="step-num">1</div><div class="step-text">選擇報告</div></div>
-        <div class="step-arrow">→</div>
-        <div class="step"><div class="step-num">2</div><div class="step-text">填寫資料</div></div>
-        <div class="step-arrow">→</div>
-        <div class="step"><div class="step-num">3</div><div class="step-text">線上付款</div></div>
-        <div class="step-arrow">→</div>
-        <div class="step"><div class="step-num">4</div><div class="step-text">收取報告</div></div>
+    <section class="cards-grid">
+
+      <!-- 方案一：個人命盤解讀 -->
+      <div class="service-card">
+        <div class="card-icon">🔮</div>
+        <div class="card-title">個人命盤解讀</div>
+        <div class="card-price"><span class="nt">NT$</span>299</div>
+        <ul class="card-features">
+          <li>🔮 完整八字命盤 + 白話解讀</li>
+          <li>✨ 天賦強項分析</li>
+          <li>📊 未來 3 年運勢走向</li>
+          <li>📄 PDF 報告 24hr 內寄出</li>
+        </ul>
+        <a href="https://ig.me/m/tianji_mingli" target="_blank" class="cta-btn outline">立即諮詢</a>
       </div>
 
-      <section class="products">
-        <!-- 基礎八字詳批報告 NT$299 -->
-        <div class="product-card">
-          <div class="product-icon">🏛️</div>
-          <div class="product-title">基礎八字詳批報告</div>
-          <div class="product-price"><span class="currency">NT$</span>299</div>
-          <ul class="product-desc">
-            <li>完整四柱八字排盤</li>
-            <li>五行強弱深度分析</li>
-            <li>十神解讀與格局判斷</li>
-            <li>事業／感情／健康建議</li>
-            <li>專屬開運方向指引</li>
-            <li>約 1500-2000 字報告</li>
-          </ul>
-          <button class="buy-btn" onclick="openBuyModal('bazi_basic','基礎八字詳批報告',299)">立即購買 NT$299</button>
-        </div>
-
-        <!-- 奇門遁甲決策報告 NT$599 -->
-        <div class="product-card">
-          <div class="product-icon">🔮</div>
-          <div class="product-title">奇門遁甲決策報告</div>
-          <div class="product-price"><span class="currency">NT$</span>599</div>
-          <ul class="product-desc">
-            <li>九宮飛星完整排盤</li>
-            <li>天地人神四盤解析</li>
-            <li>吉凶方位精準判斷</li>
-            <li>最佳行動時機建議</li>
-            <li>具體行動方案規劃</li>
-            <li>約 2000-2500 字報告</li>
-          </ul>
-          <button class="buy-btn" onclick="openBuyModal('qimen_decision','奇門遁甲決策報告',599)">立即購買 NT$599</button>
-        </div>
-
-        <!-- 完整八字流年報告 NT$999 -->
-        <div class="product-card featured">
-          <div class="product-icon">📜</div>
-          <div class="product-title">完整八字流年報告</div>
-          <div class="product-price"><span class="currency">NT$</span>999</div>
-          <ul class="product-desc">
-            <li>八字命盤完整詳解</li>
-            <li>2026 流年運勢分析</li>
-            <li>每月運勢重點提醒</li>
-            <li>大運流年走勢圖</li>
-            <li>年度開運建議</li>
-            <li>約 2500-3000 字報告</li>
-          </ul>
-          <button class="buy-btn" onclick="openBuyModal('bazi_yearly','完整八字流年報告',999)">立即購買 NT$999</button>
-        </div>
-
-        <!-- VIP 全方位命理報告 NT$2,999 -->
-        <div class="product-card vip">
-          <div class="product-icon">👑</div>
-          <div class="product-title">VIP 全方位命理報告</div>
-          <div class="product-price"><span class="currency">NT$</span>2,999</div>
-          <ul class="product-desc">
-            <li>八字命盤 + 流年詳解</li>
-            <li>奇門遁甲時機分析</li>
-            <li>紫微斗數命格解讀</li>
-            <li>姓名學五格剖象</li>
-            <li>綜合開運行動方案</li>
-            <li>約 5000+ 字完整報告</li>
-          </ul>
-          <button class="buy-btn vip-btn" onclick="openBuyModal('vip_full','VIP全方位命理報告',2999)">立即購買 NT$2,999</button>
-        </div>
-      </section>
-
-      <div class="guarantee">
-        <span>🔒</span> 採用綠界科技(ECPay)安全金流，支援信用卡、ATM轉帳、超商付款<br>
-        <span>📧</span> 付款完成後 24 小時內以 email 寄送專屬報告<br>
-        <span>💬</span> 有任何問題歡迎來信 <a href="mailto:pololkj38@gmail.com" style="color:var(--cyan);">pololkj38@gmail.com</a>
+      <!-- 方案二：專題深入分析 -->
+      <div class="service-card popular">
+        <div class="popular-badge">最多人選</div>
+        <div class="card-icon">🎯</div>
+        <div class="card-title">專題深入分析</div>
+        <div class="card-price"><span class="nt">NT$</span>599</div>
+        <ul class="card-features">
+          <li>🔮 包含完整命盤解讀</li>
+          <li>🎯 選一主題深入：感情 / 事業 / 財運</li>
+          <li>💡 針對你的問題給具體建議</li>
+          <li>📄 PDF 報告 24hr 內寄出</li>
+        </ul>
+        <a href="https://ig.me/m/tianji_mingli" target="_blank" class="cta-btn gold">立即諮詢</a>
       </div>
-    </div>
 
-    <footer class="site-footer">
-      <p>© 2026 天機命理 ✦ 僅供參考，不構成任何決策建議</p>
+      <!-- 方案三：年度完整規劃 -->
+      <div class="service-card">
+        <div class="card-icon">📅</div>
+        <div class="card-title">年度完整規劃</div>
+        <div class="card-price"><span class="nt">NT$</span>1,299</div>
+        <ul class="card-features">
+          <li>🔮 完整命盤 + 12 個月流年分析</li>
+          <li>📅 每月運勢重點提醒</li>
+          <li>🧭 開運方位 + 幸運色建議</li>
+          <li>⏰ 重大決策最佳時間點</li>
+          <li>📄 完整 PDF 報告</li>
+        </ul>
+        <a href="https://ig.me/m/tianji_mingli" target="_blank" class="cta-btn outline">立即諮詢</a>
+      </div>
+
+      <!-- 方案四：奇門遁甲改運 -->
+      <div class="service-card">
+        <div class="card-icon">🏯</div>
+        <div class="card-title">奇門遁甲改運</div>
+        <div class="card-price"><span class="nt">NT$</span>2,999</div>
+        <ul class="card-features">
+          <li>🔮 依據你的問題專業起盤</li>
+          <li>📋 改運指令書：時間、方位、行動</li>
+          <li>💰 適合：求財、求職、談判、重大決策</li>
+          <li>🎯 一事一盤，精準改運</li>
+        </ul>
+        <a href="https://ig.me/m/tianji_mingli" target="_blank" class="cta-btn outline">立即諮詢</a>
+      </div>
+
+    </section>
+
+    <!-- 付款方式 -->
+    <section class="payment-section">
+      <h3>📩 付款方式</h3>
+      <p>
+        付款方式請私訊洽詢<br><br>
+        IG：<a href="https://www.instagram.com/tianji_mingli/" target="_blank">@tianji_mingli</a><br>
+        Threads：<a href="https://www.threads.com/@tianji_mingli" target="_blank">@tianji_mingli</a>
+      </p>
+    </section>
+
+    <footer class="page-footer">
+      <p>© 2025 天機命理 ｜ <a href="index.html">返回首頁</a></p>
     </footer>
   </div>
 
-  <!-- Purchase Modal -->
-  <div class="modal-overlay" id="buyModal">
-    <div class="modal">
-      <button class="close-modal" onclick="closeModal()">&times;</button>
-      <h2 id="modalTitle">購買報告</h2>
-      <div class="modal-price" id="modalPrice"></div>
-      <form id="purchaseForm">
-        <input type="hidden" id="fProductType">
-        <input type="hidden" id="fProductName">
-        <input type="hidden" id="fAmount">
-
-        <div class="form-group">
-          <label>收件 Email *（報告將寄送至此信箱）</label>
-          <input type="email" id="fEmail" placeholder="your@email.com" required>
-        </div>
-
-        <div class="form-group">
-          <label>姓名 *</label>
-          <input type="text" id="fName" placeholder="您的姓名" required>
-        </div>
-
-        <div class="form-group">
-          <label>性別 *</label>
-          <select id="fGender" required>
-            <option value="">請選擇</option>
-            <option value="male">男</option>
-            <option value="female">女</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>出生年（西元）*</label>
-            <input type="number" id="fBirthYear" min="1920" max="2026" placeholder="例：1990" required>
-          </div>
-          <div class="form-group">
-            <label>出生月 *</label>
-            <select id="fBirthMonth" required>
-              <option value="">月</option>
-              <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-              <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
-              <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-              <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>出生日 *</label>
-            <input type="number" id="fBirthDay" min="1" max="31" placeholder="日" required>
-          </div>
-          <div class="form-group">
-            <label>出生時辰 *</label>
-            <select id="fBirthHour" required>
-              <option value="">請選擇</option>
-              <option value="0">子時 (23-01)</option><option value="1">丑時 (01-03)</option>
-              <option value="2">寅時 (03-05)</option><option value="3">卯時 (05-07)</option>
-              <option value="4">辰時 (07-09)</option><option value="5">巳時 (09-11)</option>
-              <option value="6">午時 (11-13)</option><option value="7">未時 (13-15)</option>
-              <option value="8">申時 (15-17)</option><option value="9">酉時 (17-19)</option>
-              <option value="10">戌時 (19-21)</option><option value="11">亥時 (21-23)</option>
-              <option value="unknown">不確定</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>想特別了解的問題（可選）</label>
-          <textarea id="fQuestion" rows="2" placeholder="例：今年適合換工作嗎？感情何時會有好消息？"></textarea>
-        </div>
-
-        <button type="submit" class="buy-btn" id="submitBtn">前往綠界付款 →</button>
-      </form>
-    </div>
-  </div>
-
-  <script src="js/starfield.js"></script>
   <script>
-    // ===== ECPay 收款連結 =====
-    // 在綠界廠商後台建立收款連結後，將連結填入下方
-    // 路徑：vendor.ecpay.com.tw > 收款工具 > 收款連結
-    var ECPAY_LINKS = {
-      bazi_basic:      '', // NT$299 基礎八字詳批報告
-      qimen_decision:  '', // NT$599 奇門遁甲決策報告
-      bazi_yearly:     '', // NT$999 完整八字流年報告
-      vip_full:        ''  // NT$2999 VIP全方位命理報告
-    };
-
-    // 是否使用 Cloudflare Worker 後端（進階模式）
-    var USE_WORKER = false;
-    var WORKER_URL = ''; // 填入 Cloudflare Worker URL
-
-    var currentProduct = {};
-
-    function openBuyModal(type, name, amount) {
-      currentProduct = { type: type, name: name, amount: amount };
-      document.getElementById('fProductType').value = type;
-      document.getElementById('fProductName').value = name;
-      document.getElementById('fAmount').value = amount;
-      document.getElementById('modalTitle').textContent = '購買 ' + name;
-      document.getElementById('modalPrice').textContent = 'NT$' + amount.toLocaleString();
-      document.getElementById('buyModal').classList.add('active');
-    }
-
-    function closeModal() {
-      document.getElementById('buyModal').classList.remove('active');
-    }
-
-    document.getElementById('buyModal').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
-
-    document.getElementById('purchaseForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      var email = document.getElementById('fEmail').value.trim();
-      var name = document.getElementById('fName').value.trim();
-      var gender = document.getElementById('fGender').value;
-      var birthYear = document.getElementById('fBirthYear').value;
-      var birthMonth = document.getElementById('fBirthMonth').value;
-      var birthDay = document.getElementById('fBirthDay').value;
-      var birthHour = document.getElementById('fBirthHour').value;
-      var question = document.getElementById('fQuestion').value.trim();
-
-      if (!email || !name || !gender || !birthYear || !birthMonth || !birthDay || !birthHour) {
-        alert('請填寫所有必填欄位');
-        return;
-      }
-
-      // 組合備註資訊（會顯示在 ECPay 付款頁的備註欄）
-      var remark = '【' + currentProduct.name + '】\n' +
-        '姓名: ' + name + '\n' +
-        'Email: ' + email + '\n' +
-        '性別: ' + (gender === 'male' ? '男' : '女') + '\n' +
-        '出生: ' + birthYear + '/' + birthMonth + '/' + birthDay + ' ' + getHourText(birthHour) + '\n' +
-        (question ? '問題: ' + question : '');
-
-      // 將訂單資料存到 localStorage（付款返回時顯示成功訊息）
-      localStorage.setItem('tj_pending_order', JSON.stringify({
-        product: currentProduct,
-        email: email,
-        name: name,
-        remark: remark,
-        time: new Date().toISOString()
-      }));
-
-      // 方案 A：使用 ECPay 收款連結
-      var link = ECPAY_LINKS[currentProduct.type];
-      if (link) {
-        // 收款連結支援 query params 帶入備註
-        window.location.href = link;
-        return;
-      }
-
-      // 方案 B：使用 Cloudflare Worker
-      if (USE_WORKER && WORKER_URL) {
-        var btn = document.getElementById('submitBtn');
-        btn.textContent = '處理中...';
-        btn.disabled = true;
-
-        fetch(WORKER_URL + '/create-payment', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            productType: currentProduct.type,
-            productName: currentProduct.name,
-            amount: currentProduct.amount,
-            email: email,
-            name: name,
-            gender: gender,
-            birthData: birthYear + '/' + birthMonth + '/' + birthDay + '/' + birthHour,
-            question: question
-          })
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data.paymentUrl) {
-            window.location.href = data.paymentUrl;
-          } else if (data.html) {
-            // ECPay AIO 回傳 HTML form，需要自動提交
-            var div = document.createElement('div');
-            div.innerHTML = data.html;
-            document.body.appendChild(div);
-            var form = div.querySelector('form');
-            if (form) form.submit();
-          } else {
-            alert('付款連結建立失敗，請稍後再試');
-            btn.textContent = '前往綠界付款 →';
-            btn.disabled = false;
-          }
-        })
-        .catch(function() {
-          alert('連線錯誤，請稍後再試');
-          btn.textContent = '前往綠界付款 →';
-          btn.disabled = false;
-        });
-        return;
-      }
-
-      // 如果都沒設定，提示聯絡
-      alert('付款系統設定中，請直接聯繫 pololkj38@gmail.com 訂購。');
-    });
-
-    function getHourText(h) {
-      var hours = ['子時(23-01)','丑時(01-03)','寅時(03-05)','卯時(05-07)','辰時(07-09)','巳時(09-11)',
-        '午時(11-13)','未時(13-15)','申時(15-17)','酉時(17-19)','戌時(19-21)','亥時(21-23)'];
-      if (h === 'unknown') return '不確定';
-      return hours[parseInt(h)] || h;
-    }
-
-    // 檢查是否從 ECPay 付款返回
-    (function() {
-      var params = new URLSearchParams(window.location.search);
-      if (params.get('payment') === 'success' || params.get('RtnCode') === '1') {
-        document.getElementById('mainPage').style.display = 'none';
-        document.getElementById('successPage').style.display = 'block';
-        localStorage.removeItem('tj_pending_order');
-      }
+    // Starfield background
+    (function(){
+      const c=document.getElementById('starfield');
+      if(!c)return;
+      const ctx=c.getContext('2d');
+      let stars=[];
+      function resize(){c.width=window.innerWidth;c.height=window.innerHeight;init();}
+      function init(){stars=[];for(let i=0;i<120;i++){stars.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.2+0.3,a:Math.random(),da:0.003+Math.random()*0.008});}}
+      function draw(){ctx.clearRect(0,0,c.width,c.height);stars.forEach(s=>{s.a+=s.da;if(s.a>1)s.da*=-1;if(s.a<0)s.da*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${s.a*0.5})`;ctx.fill();});requestAnimationFrame(draw);}
+      window.addEventListener('resize',resize);
+      resize();draw();
     })();
-
-    // Nav toggle
-    var t = document.querySelector('.nav-toggle');
-    if (t) t.addEventListener('click', function() { document.querySelector('.nav-links').classList.toggle('open'); });
   </script>
 </body>
 </html>
