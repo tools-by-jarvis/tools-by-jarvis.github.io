@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>紫微斗數排盤 - 免費線上紫微命盤 | 天機命理</title>
+  <meta name="description" content="免費紫微斗數排盤！輸入出生年月日時辰，精準計算十四主星、四化、大限。台灣最受歡迎的命理系統。">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ===== Ziwei Chart Grid ===== */
+    .ziwei-chart {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, auto);
+      gap: 4px;
+      max-width: 900px;
+      margin: 1.5rem auto;
+      font-size: 0.78rem;
+    }
+    .ziwei-cell {
+      background: var(--bg-glass);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.6rem 0.5rem;
+      min-height: 120px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .ziwei-cell:hover {
+      border-color: var(--border-glow);
+      box-shadow: var(--glow-gold);
+      transform: scale(1.02);
+      z-index: 10;
+    }
+    .ziwei-cell.is-ming {
+      border-color: rgba(255,215,0,0.4);
+      background: rgba(255,215,0,0.05);
+    }
+    .ziwei-cell.is-shen {
+      border-color: rgba(0,229,255,0.3);
+    }
+    /* Center area spanning 2x2 */
+    .ziwei-center {
+      grid-column: 2 / 4;
+      grid-row: 2 / 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: auto;
+      cursor: default;
+      background: rgba(255,215,0,0.03);
+      border-color: var(--border-glow);
+    }
+    .ziwei-center:hover { transform: none; }
+    .center-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 20px rgba(255,215,0,0.3);
+    }
+    .center-info {
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      line-height: 1.8;
+    }
+    .center-info strong { color: var(--gold); }
+
+    /* Cell contents */
+    .cell-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
+    .cell-palace {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.82rem;
+    }
+    .cell-gz {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+    .cell-daxian {
+      font-size: 0.65rem;
+      color: var(--cyan);
+      opacity: 0.8;
+    }
+    .cell-stars {
+      margin-top: 4px;
+    }
+    .star-main {
+      font-family: 'Noto Serif TC', serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      display: inline-block;
+      margin: 1px 2px;
+    }
+    .star-aux {
+      font-size: 0.72rem;
+      color: var(--purple-light);
+      display: inline-block;
+      margin: 1px 2px;
+    }
+    .star-lu {
+      font-size: 0.72rem;
+      color: var(--green);
+      display: inline-block;
+      margin: 1px 2px;
+    }
+    .star-sha {
+      font-size: 0.72rem;
+      color: var(--red);
+      display: inline-block;
+      margin: 1px 2px;
+    }
+    .star-bright {
+      font-size: 0.58rem;
+      color: var(--text-muted);
+      vertical-align: super;
+    }
+    .star-hua {
+      font-size: 0.6rem;
+      padding: 0 2px;
+      border-radius: 3px;
+      vertical-align: super;
+      font-weight: 700;
+    }
+    .hua-lu { color: #22c55e; }
+    .hua-quan { color: #f59e0b; }
+    .hua-ke { color: #3b82f6; }
+    .hua-ji { color: #ef4444; }
+
+    /* Star animation */
+    .star-item {
+      opacity: 0;
+      animation: starFadeIn 0.4s ease forwards;
+    }
+    @keyframes starFadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Palace detail modal */
+    .palace-detail-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+    .palace-detail-modal.active { display: flex; }
+    .palace-detail-content {
+      background: var(--bg-mid);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .palace-detail-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .palace-detail-title {
+      color: var(--gold);
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .palace-detail-content p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.9;
+      margin-bottom: 0.8rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .ziwei-chart { font-size: 0.68rem; gap: 2px; }
+      .ziwei-cell { padding: 0.4rem 0.3rem; min-height: 90px; }
+      .star-main { font-size: 0.75rem; }
+      .star-aux, .star-sha, .star-lu { font-size: 0.62rem; }
+      .center-title { font-size: 1.1rem; }
+      .center-info { font-size: 0.72rem; }
+    }
+    @media (max-width: 480px) {
+      .ziwei-cell { min-height: 75px; padding: 0.3rem 0.2rem; }
+      .cell-palace { font-size: 0.72rem; }
+      .star-main { font-size: 0.68rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-screen"><div class="loading-bagua">☯</div><div class="loading-text">排盤中...</div></div>
+  <canvas id="starfield"></canvas>
+  <div class="checkin-banner"></div>
+  <div class="page-wrap">
+    <header class="site-header">
+      <nav>
+        <a href="index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理</a>
+        <button class="nav-toggle">☰</button>
+        <div class="nav-links">
+          <a href="guide.html">轉運指引 <span style="color:#ef4444;font-size:0.65rem;vertical-align:super;">HOT</span></a>
+          <a href="ziwei.html" class="active">紫微斗數</a>
+          <a href="bazi.html">八字排盤</a>
+          <a href="qimen.html">奇門遁甲</a>
+          <a href="name.html">姓名學</a>
+          <a href="daily.html">每日運勢</a>
+          <a href="paid-report.html" style="color:var(--gold);font-weight:700;">付費報告 ✦</a>
+          <div class="header-controls">
+            <button class="ctrl-btn" id="theme-toggle">☀️</button>
+            <button class="ctrl-btn" id="music-toggle">🔇</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="page-container" style="max-width:1050px;">
+      <h1 class="page-title">🌟 紫微斗數排盤</h1>
+      <p class="page-subtitle">台灣最受歡迎的命理系統，揭示你的先天命格與人生藍圖</p>
+
+      <div class="glass-box">
+        <div class="form-row">
+          <div class="form-group">
+            <label>出生年（西元）</label>
+            <input type="number" id="birth-year" min="1920" max="2050" value="1993">
+          </div>
+          <div class="form-group">
+            <label>月</label>
+            <select id="birth-month"></select>
+          </div>
+          <div class="form-group">
+            <label>日</label>
+            <select id="birth-day"></select>
+          </div>
+          <div class="form-group">
+            <label>時辰</label>
+            <select id="birth-hour">
+              <option value="0">子時 (23-01)</option><option value="1">丑時 (01-03)</option>
+              <option value="2">寅時 (03-05)</option><option value="3">卯時 (05-07)</option>
+              <option value="4" selected>辰時 (07-09)</option><option value="5">巳時 (09-11)</option>
+              <option value="6">午時 (11-13)</option><option value="7">未時 (13-15)</option>
+              <option value="8">申時 (15-17)</option><option value="9">酉時 (17-19)</option>
+              <option value="10">戌時 (19-21)</option><option value="11">亥時 (21-23)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>性別</label>
+          <div class="radio-group">
+            <label><input type="radio" name="gender" value="男" checked> 男</label>
+            <label><input type="radio" name="gender" value="女"> 女</label>
+          </div>
+        </div>
+        <button class="btn btn-center" onclick="doZiWei()">開始排盤 ✦</button>
+      </div>
+
+      <div id="result" class="result-section">
+        <!-- Chart will be rendered here -->
+        <div id="ziwei-chart-container"></div>
+
+        <!-- Interpretation -->
+        <div class="info-box reveal-card" id="interp-overall" style="display:none"></div>
+        <div class="info-box reveal-card" id="interp-ming" style="display:none"></div>
+        <div class="info-box reveal-card" id="interp-pattern" style="display:none"></div>
+        <div class="info-box reveal-card" id="interp-daxian" style="display:none"></div>
+
+        <div style="text-align:center;margin-top:2rem;display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="shareResult()">📤 分享命盤</button>
+          <button class="btn btn-paid" onclick="location.href='coming-soon.html'">🔮 大師深度解讀（即將推出）</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p class="disclaimer">⚠️ 本網站僅供娛樂參考，不構成任何專業建議。</p>
+      <p>© 2026 天機命理</p>
+    </footer>
+  </div>
+
+  <!-- Palace Detail Modal -->
+  <div class="palace-detail-modal" id="palace-modal">
+    <div class="palace-detail-content">
+      <button class="palace-detail-close" onclick="closePalaceModal()">✕</button>
+      <div id="palace-modal-body"></div>
+    </div>
+  </div>
+
+  <a href="daily.html" class="fab" title="今日運勢">⭐</a>
+
+  <script src="js/lunar.js"></script>
+  <script src="js/ziwei.js"></script>
+  <script src="js/global.js"></script>
+  <script>
+    // Populate selects
+    const monthSel = document.getElementById('birth-month');
+    for (let i = 1; i <= 12; i++) {
+      const o = document.createElement('option');
+      o.value = i; o.textContent = i + '月';
+      if (i === 2) o.selected = true;
+      monthSel.appendChild(o);
+    }
+    const daySel = document.getElementById('birth-day');
+    for (let i = 1; i <= 31; i++) {
+      const o = document.createElement('option');
+      o.value = i; o.textContent = i + '日';
+      if (i === 21) o.selected = true;
+      daySel.appendChild(o);
+    }
+
+    let lastResult = null;
+
+    function doZiWei() {
+      const year = +document.getElementById('birth-year').value;
+      const month = +document.getElementById('birth-month').value;
+      const day = +document.getElementById('birth-day').value;
+      const hour = +document.getElementById('birth-hour').value;
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+
+      try {
+        lastResult = ZiWei.calculate(year, month, day, hour, gender);
+        renderChart(lastResult);
+      } catch(e) {
+        console.error(e);
+        alert('排盤計算錯誤，請確認日期是否正確。');
+      }
+    }
+
+    function renderChart(r) {
+      const res = document.getElementById('result');
+      res.classList.add('visible');
+
+      // Build the 4x4 grid
+      // Traditional layout:
+      // Row 0: 巳(5) 午(6) 未(7) 申(8)
+      // Row 1: 辰(4) [CENTER]        酉(9)
+      // Row 2: 卯(3) [CENTER]        戌(10)
+      // Row 3: 寅(2) 丑(1) 子(0) 亥(11)
+      const layout = [
+        [5, 6, 7, 8],
+        [4, -1, -1, 9],
+        [3, -1, -1, 10],
+        [2, 1, 0, 11]
+      ];
+
+      let html = '<div class="ziwei-chart">';
+
+      for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 4; col++) {
+          const zhi = layout[row][col];
+
+          if (zhi === -1) {
+            // Center cell (only render once at row1,col1)
+            if (row === 1 && col === 1) {
+              html += renderCenter(r);
+            }
+            continue;
+          }
+
+          const p = r.palaces[zhi];
+          const isMing = p.isMing ? ' is-ming' : '';
+          const isShen = p.isShen ? ' is-shen' : '';
+
+          html += `<div class="ziwei-cell${isMing}${isShen}" onclick="showPalaceDetail(${zhi})">`;
+          html += `<div class="cell-header">`;
+          html += `<span class="cell-palace">${p.palaceName}${p.isMing ? ' ★' : ''}${p.isShen ? ' ◆' : ''}</span>`;
+          html += `<span class="cell-gz">${p.ganZhi}</span>`;
+          html += `</div>`;
+          html += `<div class="cell-daxian">${p.daXianStart}-${p.daXianEnd}歲</div>`;
+          html += `<div class="cell-stars">`;
+
+          // Render stars with staggered animation
+          let delay = 0;
+          // Main stars first
+          p.stars.filter(s => s.type === 'main').forEach(s => {
+            html += renderStar(s, 'star-main', delay);
+            delay += 0.05;
+          });
+          // Aux stars
+          p.stars.filter(s => s.type === 'aux').forEach(s => {
+            html += renderStar(s, 'star-aux', delay);
+            delay += 0.03;
+          });
+          // 祿存
+          p.stars.filter(s => s.type === 'lu').forEach(s => {
+            html += renderStar(s, 'star-lu', delay);
+            delay += 0.03;
+          });
+          // 煞星
+          p.stars.filter(s => s.type === 'sha').forEach(s => {
+            html += renderStar(s, 'star-sha', delay);
+            delay += 0.03;
+          });
+
+          html += `</div></div>`;
+        }
+      }
+
+      html += '</div>';
+      document.getElementById('ziwei-chart-container').innerHTML = html;
+
+      // Interpretations
+      const interp = ZiWei.getInterpretation(r);
+
+      setTimeout(() => showBox('interp-overall', '📋 命盤總覽', `<p>${interp.overall}</p>`), 200);
+      setTimeout(() => showBox('interp-ming', '⭐ 命宮主星解讀', `<p>${interp.mingStars.replace(/\n/g, '</p><p>')}</p>`), 500);
+      setTimeout(() => showBox('interp-pattern', '🔮 格局分析', `<p>${interp.pattern.replace(/\n/g, '</p><p>')}</p>`), 800);
+      setTimeout(() => showBox('interp-daxian', '🔄 大限走勢', `<p>${interp.daXian}</p>`), 1100);
+
+      res.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderCenter(r) {
+      return `<div class="ziwei-cell ziwei-center">
+        <div class="center-title">紫微斗數命盤</div>
+        <div class="center-info">
+          <div>${r.solarDate} ${r.hourName}</div>
+          <div>${r.lunarDateCN} ${r.gender}命</div>
+          <div><strong>${r.yearGanZhi}年</strong>（${r.yearNaYin}）· ${r.zodiac}</div>
+          <div style="margin-top:0.5rem;">
+            <strong style="color:var(--cyan);">${r.juName}</strong>
+          </div>
+          <div>命主：<strong>${r.mingZhu}</strong>　身主：<strong>${r.shenZhu}</strong></div>
+          <div>命宮：<strong>${r.mingGongName}</strong>　身宮：<strong>${r.shenGongName}</strong></div>
+          <div style="margin-top:0.5rem;font-size:0.75rem;color:var(--text-muted);">
+            四化：${r.siHua.map(h => h.star + h.hua).join('　')}
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function renderStar(star, cssClass, delay) {
+      let html = `<span class="star-item ${cssClass}" style="animation-delay:${delay.toFixed(2)}s">`;
+      html += star.name;
+      if (star.brightness && star.brightIdx >= 0) {
+        html += `<span class="star-bright">${star.brightness}</span>`;
+      }
+      star.hua.forEach(h => {
+        const cls = h === '化祿' ? 'hua-lu' : h === '化權' ? 'hua-quan' : h === '化科' ? 'hua-ke' : 'hua-ji';
+        const short = h.replace('化', '');
+        html += `<span class="star-hua ${cls}">${short}</span>`;
+      });
+      html += '</span> ';
+      return html;
+    }
+
+    function showBox(id, title, content) {
+      const el = document.getElementById(id);
+      el.innerHTML = `<h4>${title}</h4>${content}`;
+      el.style.display = 'block';
+    }
+
+    // Palace detail modal
+    function showPalaceDetail(zhi) {
+      if (!lastResult) return;
+      const p = lastResult.palaces[zhi];
+      const modal = document.getElementById('palace-modal');
+      const body = document.getElementById('palace-modal-body');
+
+      let html = `<div class="palace-detail-title">${p.palaceName}（${p.ganZhi}）${p.isMing ? '★ 命宮' : ''}${p.isShen ? '◆ 身宮' : ''}</div>`;
+      html += `<p>大限：${p.daXianStart} - ${p.daXianEnd} 歲</p>`;
+
+      // List all stars
+      const mainStars = p.stars.filter(s => s.type === 'main');
+      const auxStars = p.stars.filter(s => s.type === 'aux' || s.type === 'lu');
+      const shaStars = p.stars.filter(s => s.type === 'sha');
+
+      if (mainStars.length > 0) {
+        html += '<p><strong style="color:var(--gold);">主星：</strong>';
+        html += mainStars.map(s => {
+          let t = s.name;
+          if (s.brightness) t += `（${s.brightness}）`;
+          s.hua.forEach(h => t += ` ${h}`);
+          return t;
+        }).join('、') + '</p>';
+      }
+
+      if (auxStars.length > 0) {
+        html += '<p><strong style="color:var(--purple-light);">輔星：</strong>';
+        html += auxStars.map(s => {
+          let t = s.name;
+          s.hua.forEach(h => t += ` ${h}`);
+          return t;
+        }).join('、') + '</p>';
+      }
+
+      if (shaStars.length > 0) {
+        html += '<p><strong style="color:var(--red);">煞星：</strong>';
+        html += shaStars.map(s => s.name).join('、') + '</p>';
+      }
+
+      // Palace interpretation
+      const palaceDescs = {
+        '命宮': '命宮代表一個人的先天性格、外在表現、人生格局與整體命運走向。是紫微斗數中最重要的宮位。',
+        '兄弟': '兄弟宮代表兄弟姐妹的關係、朋友情誼，也代表財庫的守護。',
+        '夫妻': '夫妻宮代表婚姻感情狀況、配偶的特質與緣分。',
+        '子女': '子女宮代表子女運、子女的能力與親子關係，也代表桃花與合作關係。',
+        '財帛': '財帛宮代表賺錢能力、理財方式與財運好壞。',
+        '疾厄': '疾厄宮代表身體健康狀況、容易罹患的疾病與體質。',
+        '遷移': '遷移宮代表外出運、社交能力、外在環境與貴人運。',
+        '交友': '交友宮（僕役宮）代表人際關係、下屬緣、合作對象的素質。',
+        '官祿': '官祿宮（事業宮）代表事業發展、工作能力、適合的職業方向。',
+        '田宅': '田宅宮代表不動產運、居家環境、家庭狀況。',
+        '福德': '福德宮代表精神生活、思想觀念、興趣嗜好與福氣。',
+        '父母': '父母宮代表與長輩的關係、遺傳體質、學歷與文書運。',
+      };
+
+      html += `<p style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;">${palaceDescs[p.palaceName] || ''}</p>`;
+
+      body.innerHTML = html;
+      modal.classList.add('active');
+    }
+
+    function closePalaceModal() {
+      document.getElementById('palace-modal').classList.remove('active');
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('palace-modal').addEventListener('click', function(e) {
+      if (e.target === this) closePalaceModal();
+    });
+
+    function shareResult() {
+      const text = lastResult ?
+        `我的紫微斗數命盤：${lastResult.yearGanZhi}年 ${lastResult.juName}，命主${lastResult.mingZhu}，身主${lastResult.shenZhu}` :
+        '來看看你的紫微斗數命盤！';
+      if (navigator.share) {
+        navigator.share({ title: '我的紫微命盤 - 天機命理', text, url: location.href });
+      } else {
+        navigator.clipboard?.writeText(text + ' ' + location.href);
+        alert('連結已複製到剪貼簿！');
+      }
+    }
+  </script>
+</body>
+</html>

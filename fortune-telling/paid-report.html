@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ 天機命理 — 完整服務價目表</title>
+  <meta name="description" content="天機命理完整服務價目表：八字 × 紫微斗數 × 六爻 × 奇門遁甲，四大系統為你全方位解命改運。">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ===== Paid Report Page Styles ===== */
+    .paid-hero {
+      text-align: center;
+      padding: 4rem 2rem 2.5rem;
+      position: relative;
+    }
+    .paid-hero h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffd700, #ff6b6b, #ffd700, #00e5ff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: heroShimmer 5s ease infinite;
+      margin-bottom: 0.5rem;
+    }
+    @keyframes heroShimmer {
+      0%,100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .paid-hero .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0.5rem auto 1.2rem;
+      line-height: 1.8;
+    }
+    .paid-hero .trust-badge {
+      display: inline-block;
+      background: rgba(255,215,0,0.08);
+      border: 1px solid rgba(255,215,0,0.15);
+      border-radius: 999px;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    /* Section titles */
+    .section-title {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+    }
+    .section-title h2 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .section-title p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .gold-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 3rem 2rem 1rem;
+    }
+    .gold-divider .line {
+      flex: 1;
+      max-width: 160px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .gold-divider .label {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* Card grid */
+    .card-grid {
+      display: grid;
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem 2rem;
+    }
+    .card-grid.two { grid-template-columns: repeat(2, 1fr); }
+    .card-grid.three { grid-template-columns: repeat(3, 1fr); }
+    .card-grid.four { grid-template-columns: repeat(4, 1fr); }
+
+    @media (max-width: 900px) {
+      .card-grid.three { grid-template-columns: repeat(2, 1fr); }
+      .card-grid.four { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .card-grid.two,
+      .card-grid.three,
+      .card-grid.four { grid-template-columns: 1fr; }
+    }
+
+    /* Service card */
+    .service-card {
+      background: var(--bg-glass);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,215,0,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .service-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: var(--glow-gold);
+      background: var(--bg-card-hover);
+    }
+
+    .service-card .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .service-card .card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+    .service-card .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+    .service-card .card-price {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .service-card .card-unit {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    /* Badge */
+    .card-badge {
+      position: absolute;
+      top: 12px;
+      right: -28px;
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 2rem;
+      transform: rotate(45deg);
+      z-index: 2;
+    }
+    .card-badge.gold {
+      background: linear-gradient(135deg, #ffd700, #f59e0b);
+      color: #1a1a2e;
+    }
+    .card-badge.purple {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    }
+    .card-badge.diamond {
+      background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+    }
+
+    /* CTA button */
+    .cta-btn {
+      display: inline-block;
+      padding: 0.6rem 1.8rem;
+      background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,215,0,0.05));
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      color: var(--gold);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .cta-btn:hover {
+      background: linear-gradient(135deg, rgba(255,215,0,0.3), rgba(255,215,0,0.1));
+      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Notice box */
+    .notice-box {
+      max-width: 700px;
+      margin: 0.5rem auto 1.5rem;
+      padding: 1rem 1.5rem;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 12px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+    .notice-box strong { color: #ef4444; }
+
+    /* Membership card (featured) */
+    .membership-card {
+      max-width: 600px;
+      margin: 1rem auto 2rem;
+      padding: 2.5rem 2rem;
+      background: linear-gradient(135deg, rgba(10,0,21,0.9), rgba(30,0,60,0.9));
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--glow-gold);
+    }
+    .membership-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 0%, rgba(255,215,0,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 100%, rgba(0,229,255,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .membership-card .card-icon { font-size: 3rem; margin-bottom: 0.8rem; display: block; position: relative; z-index: 1; }
+    .membership-card .card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      position: relative; z-index: 1;
+    }
+    .membership-card .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+      position: relative; z-index: 1;
+    }
+    .membership-card .card-price {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+      position: relative; z-index: 1;
+    }
+    .membership-card .card-unit {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      position: relative; z-index: 1;
+    }
+    .membership-card .cta-btn { position: relative; z-index: 1; }
+    .membership-card .perks {
+      position: relative; z-index: 1;
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+    }
+    .membership-card .perk-tag {
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 999px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.75rem;
+      color: var(--gold-light);
+    }
+
+    /* Footer section */
+    .page-footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+    .page-footer h3 {
+      font-family: 'Noto Serif TC', serif;
+      color: var(--gold);
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .page-footer .payment-methods {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .page-footer .payment-item {
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .page-footer .ig-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      border: none;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+    }
+    .page-footer .ig-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(131,58,180,0.4);
+    }
+    .page-footer .footer-note {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading">
+    <div class="loading-bagua">☯</div>
+    <div class="loading-text">載 入 中</div>
+  </div>
+
+  <!-- Starfield -->
+  <canvas id="starfield"></canvas>
+
+  <div class="page-wrap">
+    <!-- Header / Nav -->
+    <header class="site-header">
+      <nav>
+        <a href="index.html" class="site-logo">
+          <span class="logo-icon">☯</span>
+          天機命理
+          <span class="logo-sub">專業命理</span>
+        </a>
+        <button class="nav-toggle" aria-label="選單" id="navToggle">☰</button>
+        <div class="nav-links" id="navLinks">
+          <a href="guide.html">轉運指引</a>
+          <a href="ziwei.html">紫微斗數</a>
+          <a href="bazi.html">八字排盤</a>
+          <a href="qimen.html">奇門遁甲</a>
+          <a href="name.html">姓名學</a>
+          <a href="daily.html">每日運勢</a>
+          <a href="paid-report.html" class="active" style="color:var(--gold);font-weight:700;">付費報告 ✦</a>
+          <div class="header-controls">
+            <button class="ctrl-btn" id="theme-toggle" title="切換主題">☀️</button>
+            <button class="ctrl-btn" id="music-toggle" title="背景音樂">🔇</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="paid-hero">
+      <h1>✨ 天機命理 — 完整服務價目表</h1>
+      <p class="tagline">八字 × 紫微斗數 × 六爻 × 奇門遁甲，四大系統為你全方位解命改運</p>
+      <div class="trust-badge">🔒 一對一私密諮詢 ・ 專業命理師親自解盤 ・ 報告三日內交付</div>
+    </section>
+
+    <!-- ==================== -->
+    <!-- Section 1: 命盤分析 -->
+    <!-- ==================== -->
+    <div class="section-title">
+      <h2>🔮 命盤分析（看你是誰）</h2>
+      <p>從單系統到年度規劃，選擇最適合你的深度</p>
+    </div>
+
+    <div class="card-grid three">
+      <!-- 標準版 -->
+      <div class="service-card">
+        <div class="card-badge">🔥 最多人選</div>
+        <span class="card-icon">📜</span>
+        <div class="card-title">標準版</div>
+        <div class="card-desc">八字 或 紫微斗數 擇一系統完整分析，全面了解你的先天格局與當前運勢走向。</div>
+        <div class="card-price">NT$1,800</div>
+        <div class="card-unit">一次性 ・ 約 3,000 字報告</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+
+      <!-- 雙系統版 -->
+      <div class="service-card">
+        <div class="card-badge gold">✨ 最超值</div>
+        <span class="card-icon">🔍</span>
+        <div class="card-title">雙系統版</div>
+        <div class="card-desc">八字 + 紫微斗數 雙系統完整分析，兩套命學交叉驗證，給你最全面的命格解讀。</div>
+        <div class="card-price">NT$3,200</div>
+        <div class="card-unit">一次性 ・ 約 5,000 字報告</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+
+      <!-- 年度規劃版 -->
+      <div class="service-card">
+        <span class="card-icon">📅</span>
+        <div class="card-title">年度規劃版</div>
+        <div class="card-desc">雙系統 + 未來三年大運走向 + 每季重點提醒，長期佈局的最佳選擇。</div>
+        <div class="card-price">NT$5,800</div>
+        <div class="card-unit">一次性 ・ 約 10,000 字報告</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+    </div>
+
+    <!-- ==================== -->
+    <!-- Section 2: 感情合盤 -->
+    <!-- ==================== -->
+    <div class="gold-divider">
+      <div class="line"></div>
+      <div class="label">💕 感情合盤（看你們合不合）</div>
+      <div class="line"></div>
+    </div>
+
+    <div class="card-grid two">
+      <!-- 八字合盤 -->
+      <div class="service-card">
+        <span class="card-icon">💑</span>
+        <div class="card-title">八字合盤</div>
+        <div class="card-desc">兩人八字交叉比對 + 天干合剋 + 地支沖合 + 相處建議，看清你們的緣分深淺。</div>
+        <div class="card-price">NT$2,200</div>
+        <div class="card-unit">一次性 ・ 約 2,500 字報告</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+
+      <!-- 雙系統合盤 -->
+      <div class="service-card">
+        <div class="card-badge diamond">💎 最完整</div>
+        <span class="card-icon">💞</span>
+        <div class="card-title">雙系統合盤</div>
+        <div class="card-desc">八字 + 紫微 雙系統合盤 + 夫妻宮交叉 + 大限分析，最完整的感情命理全解。</div>
+        <div class="card-price">NT$3,800</div>
+        <div class="card-unit">一次性 ・ 約 5,000 字報告</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+    </div>
+
+    <!-- ==================== -->
+    <!-- Section 3: 問事 -->
+    <!-- ==================== -->
+    <div class="gold-divider">
+      <div class="line"></div>
+      <div class="label">🎯 問事（問一件具體的事）</div>
+      <div class="line"></div>
+    </div>
+
+    <div class="card-grid two">
+      <!-- 梅花易數 -->
+      <div class="service-card">
+        <span class="card-icon">🌸</span>
+        <div class="card-title">梅花易數</div>
+        <div class="card-desc">快速問事，命理師起卦，一事一問。適合需要快速答案的你。</div>
+        <div class="card-price">NT$1,000</div>
+        <div class="card-unit">單次 ・ 一事一問</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+
+      <!-- 六爻問事 -->
+      <div class="service-card">
+        <span class="card-icon">🎲</span>
+        <div class="card-title">六爻問事</div>
+        <div class="card-desc">客戶自己搖卦，一事一問，更有儀式感。親手搖出的卦象更貼近你的心念。</div>
+        <div class="card-price">NT$1,500</div>
+        <div class="card-unit">單次 ・ 一事一問</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+    </div>
+
+    <!-- ==================== -->
+    <!-- Section 4: 姓名學 -->
+    <!-- ==================== -->
+    <div class="gold-divider">
+      <div class="line"></div>
+      <div class="label">✏️ 姓名學</div>
+      <div class="line"></div>
+    </div>
+
+    <div class="membership-card" style="margin-left:auto;margin-right:auto;max-width:600px;padding-left:1.5rem;padding-right:1.5rem;">
+      <span class="card-icon">✍️</span>
+      <div class="card-title">命名服務</div>
+      <div class="card-desc">八字喜用神分析 + 五格計算 + 81 數理吉凶 + 3–5 組候選名，<br>為寶寶或改名需求量身打造最佳姓名。</div>
+      <div class="card-price">NT$8,800</div>
+      <div class="card-unit">一次性 ・ 含完整分析報告</div>
+      <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      <div class="perks">
+        <span class="perk-tag">🔤 五格計算</span>
+        <span class="perk-tag">🎯 喜用神分析</span>
+        <span class="perk-tag">📊 81 數理吉凶</span>
+        <span class="perk-tag">📝 3–5 組候選名</span>
+      </div>
+    </div>
+
+    <!-- ==================== -->
+    <!-- Section 5: 改運 -->
+    <!-- ==================== -->
+    <div class="gold-divider">
+      <div class="line"></div>
+      <div class="label">🔄 改運（奇門遁甲方位改運）</div>
+      <div class="line"></div>
+    </div>
+
+    <!-- Notice -->
+    <div class="notice-box">
+      <strong>⚠️ 注意：</strong>所有改運服務需先加入<strong>年度諮詢會員</strong>，確保我們充分了解您的命盤，才能給出最精準的改運方案。
+    </div>
+
+    <!-- Membership Card: 年度諮詢會員 -->
+    <div class="membership-card" style="margin-left:auto;margin-right:auto;max-width:600px;padding-left:1.5rem;padding-right:1.5rem;">
+      <span class="card-icon">🌟</span>
+      <div class="card-title">年度諮詢會員</div>
+      <div class="card-desc">一年內不限次數文字諮詢，優先回覆，專屬命理師一對一服務。<br>含完整命盤建檔、每季運勢更新、重大決策即時諮詢。</div>
+      <div class="card-price">NT$6,800</div>
+      <div class="card-unit">年費制 ・ 改運服務必備基礎</div>
+      <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即加入會員</a>
+      <div class="perks">
+        <span class="perk-tag">📬 不限次數諮詢</span>
+        <span class="perk-tag">⚡ 優先回覆</span>
+        <span class="perk-tag">📋 專屬命盤建檔</span>
+        <span class="perk-tag">🔄 每季更新</span>
+      </div>
+    </div>
+
+    <!-- 改運服務方案 -->
+    <div class="section-title">
+      <h2>⚡ 改運服務方案</h2>
+      <p>根據你的命盤與當前運勢，量身打造最佳改運策略</p>
+    </div>
+
+    <div class="card-grid four">
+      <!-- 月盤 -->
+      <div class="service-card">
+        <div class="card-badge gold">✨ 最超值</div>
+        <span class="card-icon">🌙</span>
+        <div class="card-title">月盤改運</div>
+        <div class="card-desc">每月精算最佳方位與時機，提供當月開運行動指南，適合想穩步提升運勢的你。</div>
+        <div class="card-price">NT$4,800</div>
+        <div class="card-unit">每月 ・ 含月度分析報告</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+
+      <!-- 年盤 -->
+      <div class="service-card">
+        <span class="card-icon">🌍</span>
+        <div class="card-title">年盤改運</div>
+        <div class="card-desc">全年度改運規劃，結合紫微流年與奇門方位，12 個月完整佈局，讓好運貫穿全年。</div>
+        <div class="card-price">NT$9,800</div>
+        <div class="card-unit">每年 ・ 含完整年度規劃</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+
+      <!-- 日盤/時盤 -->
+      <div class="service-card">
+        <div class="card-badge purple">VIP</div>
+        <span class="card-icon">⏱️</span>
+        <div class="card-title">日盤 / 時盤</div>
+        <div class="card-desc">重大決策前的精密擇時服務：面試、簽約、搬家、開業等，精準到日甚至時辰。</div>
+        <div class="card-price">NT$30,000</div>
+        <div class="card-unit">單次 ・ 含即時諮詢</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+
+      <!-- 包年尊榮 -->
+      <div class="service-card">
+        <div class="card-badge" style="background:linear-gradient(135deg,#ffd700,#ff6b6b);">👑 VIP尊榮</div>
+        <span class="card-icon">👑</span>
+        <div class="card-title">包年尊榮</div>
+        <div class="card-desc">月盤全年 12 期 + 年盤 + 2 次日盤/時盤，最完整的全方位改運方案，尊享 VIP 最優惠價。</div>
+        <div class="card-price">NT$52,800</div>
+        <div class="card-unit">每年 ・ 省下超過 NT$70,000</div>
+        <a href="https://ig.me/m/tianji_mingli" class="cta-btn" target="_blank" rel="noopener">立即諮詢</a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <section class="page-footer">
+      <h3>💳 付款方式</h3>
+      <div class="payment-methods">
+        <div class="payment-item">🏦 銀行轉帳</div>
+        <div class="payment-item">💳 Line Pay</div>
+        <div class="payment-item">📱 街口支付</div>
+      </div>
+      <a href="https://ig.me/m/tianji_mingli" class="ig-cta" target="_blank" rel="noopener">
+        📩 IG 私訊諮詢
+      </a>
+      <p class="footer-note">© 2026 天機命理 ・ 八字 × 紫微斗數 × 六爻 × 奇門遁甲 ・ 專業命理服務</p>
+    </section>
+
+  </div><!-- /.page-wrap -->
+
+  <!-- Scripts (shared with site) -->
+  <script>
+    // Loading screen
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading').classList.add('hidden');
+      }, 600);
+    });
+
+    // Starfield
+    (function(){
+      const c = document.getElementById('starfield');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      let w, h, stars = [];
+      function resize() {
+        w = c.width = window.innerWidth;
+        h = c.height = window.innerHeight;
+      }
+      function initStars() {
+        stars = [];
+        for (let i = 0; i < 200; i++) {
+          stars.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.5 + 0.3,
+            a: Math.random(),
+            da: (Math.random() - 0.5) * 0.01
+          });
+        }
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        stars.forEach(s => {
+          s.a += s.da;
+          if (s.a > 1 || s.a < 0.1) s.da *= -1;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      resize();
+      initStars();
+      draw();
+      window.addEventListener('resize', () => { resize(); initStars(); });
+    })();
+
+    // Nav toggle (mobile)
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (navToggle && navLinks) {
+      navToggle.addEventListener('click', () => {
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+      });
+    }
+
+    // Theme toggle
+    const themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        themeBtn.textContent = next === 'light' ? '🌙' : '☀️';
+        localStorage.setItem('theme', next);
+      });
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+        themeBtn.textContent = saved === 'light' ? '🌙' : '☀️';
+      }
+    }
+  </script>
+</body>
+</html>

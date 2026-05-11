@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>命理報告 | 天機命理</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .report-container { max-width:800px; margin:2rem auto; padding:0 1rem; }
+    .report-card { background:var(--bg-card); border:1px solid var(--border-glow); border-radius:var(--radius); padding:2.5rem; }
+    .report-header { text-align:center; margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--border); }
+    .report-header h1 { font-family:'Noto Serif TC',serif; color:var(--gold); font-size:1.8rem; }
+    .report-header .date { color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem; }
+    .report-body { color:var(--text-primary); line-height:2; font-size:1rem; white-space:pre-wrap; }
+    .report-body h2, .report-body h3 { color:var(--gold); font-family:'Noto Serif TC',serif; margin:1.5rem 0 0.8rem; }
+    .report-notice { text-align:center; margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border); color:var(--text-muted); font-size:0.85rem; }
+    .report-notice span { color:var(--gold); }
+    .loading-report { text-align:center; padding:4rem 1rem; }
+    .loading-report .spinner { font-size:3rem; animation:spin 2s linear infinite; display:inline-block; }
+    @keyframes spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+    .loading-report p { color:var(--text-secondary); margin-top:1rem; }
+    .error-msg { text-align:center; padding:4rem 1rem; color:var(--red); }
+
+    @media print {
+      body { background:#fff; color:#000; }
+      .site-header, .site-footer, #starfield { display:none; }
+      .report-card { border:none; box-shadow:none; }
+      .report-header h1 { color:#333; }
+      .report-body { color:#000; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="page-wrap">
+    <header class="site-header">
+      <nav>
+        <a href="index.html" class="site-logo"><span class="logo-icon">☯</span>天機命理<span class="logo-sub">專業命理</span></a>
+        <button class="nav-toggle" aria-label="選單">☰</button>
+        <div class="nav-links">
+          <a href="guide.html">轉運指引</a>
+          <a href="ziwei.html">紫微斗數</a>
+          <a href="bazi.html">八字排盤</a>
+          <a href="qimen.html">奇門遁甲</a>
+          <a href="name.html">姓名學</a>
+          <a href="daily.html">每日運勢</a>
+          <a href="paid-report.html" style="color:var(--gold);font-weight:700;">付費報告 ✦</a>
+          <div class="header-controls">
+            <button class="ctrl-btn" id="theme-toggle" title="切換主題">☀️</button>
+            <button class="ctrl-btn" id="music-toggle" title="背景音樂">🔇</button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="report-container">
+      <div id="reportLoading" class="loading-report">
+        <div class="spinner">☯</div>
+        <p>正在載入您的命理報告⋯⋯</p>
+      </div>
+      <div id="reportContent" style="display:none;">
+        <div class="report-card">
+          <div class="report-header">
+            <h1 id="reportTitle"></h1>
+            <div class="date" id="reportDate"></div>
+          </div>
+          <div class="report-body" id="reportBody"></div>
+          <div class="report-notice">
+            <p><span>🔒</span> 此報告為您專屬，請妥善保存</p>
+            <p>📌 請收藏此頁面網址（含 token），這是您的報告憑證</p>
+            <p style="margin-top:0.8rem;"><button onclick="window.print()" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:0.5rem 1.5rem;border-radius:8px;cursor:pointer;">🖨️ 列印報告</button></p>
+          </div>
+        </div>
+      </div>
+      <div id="reportError" class="error-msg" style="display:none;"></div>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2026 天機命理 ✦ 僅供參考，不構成任何決策建議</p>
+    </footer>
+  </div>
+
+  <script src="js/starfield.js"></script>
+  <script>
+    (function(){
+      var params = new URLSearchParams(window.location.search);
+      var token = params.get('token');
+      if(!token) {
+        document.getElementById('reportLoading').style.display = 'none';
+        document.getElementById('reportError').style.display = 'block';
+        document.getElementById('reportError').innerHTML = '<h2>⚠️ 缺少報告憑證</h2><p>請從付款完成頁面的連結進入，或檢查您的報告網址是否正確。</p><p><a href="paid-report.html" style="color:var(--gold);">前往購買報告 →</a></p>';
+        return;
+      }
+      // Fetch report from Google Apps Script
+      var scriptURL = 'YOUR_GOOGLE_SCRIPT_URL';
+      fetch(scriptURL + '?action=report&token=' + encodeURIComponent(token))
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          document.getElementById('reportLoading').style.display = 'none';
+          if(data.error) {
+            document.getElementById('reportError').style.display = 'block';
+            document.getElementById('reportError').innerHTML = '<h2>⚠️ ' + data.error + '</h2><p>報告可能仍在生成中，請稍後重新整理頁面。</p>';
+            return;
+          }
+          document.getElementById('reportContent').style.display = 'block';
+          document.getElementById('reportTitle').textContent = data.title || '命理報告';
+          document.getElementById('reportDate').textContent = '生成日期：' + (data.date || '');
+          document.getElementById('reportBody').innerHTML = (data.report || '').replace(/\n/g, '<br>');
+        })
+        .catch(function(err){
+          document.getElementById('reportLoading').style.display = 'none';
+          document.getElementById('reportError').style.display = 'block';
+          document.getElementById('reportError').innerHTML = '<h2>⚠️ 載入失敗</h2><p>請檢查網路連線後重新整理頁面。</p>';
+        });
+    })();
+    var t = document.querySelector('.nav-toggle');
+    if(t) t.addEventListener('click', function(){ document.querySelector('.nav-links').classList.toggle('open'); });
+  </script>
+</body>
+</html>
